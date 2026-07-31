@@ -26,10 +26,12 @@ public class RobotStates {
   public static Trigger endGame;
   public static Trigger Estopped;
   public static Trigger isRed; // TODO create this
+
   // chassis
   public static Trigger wheelXPosition;
   public static Trigger zeroHeading;
   public static Trigger slowMode;
+  public static Trigger pointWheel;
 
   public static void setupStates() {
     teleop = new Trigger(DriverStation::isTeleopEnabled);
@@ -45,5 +47,6 @@ public class RobotStates {
     // chassis
     wheelXPosition = Drivers.wheelsXPosition;
     zeroHeading = Drivers.zeroHeading;
+    pointWheel = Drivers.pointWheels;
   }
 }

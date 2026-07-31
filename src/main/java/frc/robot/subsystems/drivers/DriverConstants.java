@@ -6,7 +6,7 @@ public class DriverConstants {
   private DriverConstants() {} // Hide constructor
 
   public static enum CONTROLLABLE_SYSTEMS {
-    CHASSIS
+    CHASSIS,
   }
 
   public static class ChassisControls {

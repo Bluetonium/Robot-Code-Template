@@ -21,7 +21,7 @@ public class RobotContainer {
   @Getter private static Drivers driver2 = null;
 
   // audio
-  private SendableChooser<Command> autoChooser;
+  private SendableChooser<Command> autoChooser; // TODO implement pathplanner
   private static Command currentAuto;
 
   public RobotContainer() {

@@ -1,22 +1,23 @@
 package frc.robot.subsystems.drivers;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.drivers.DriverConstants.CONTROLLABLE_SYSTEMS;
-import java.util.function.DoubleSupplier;
 
 public class Drivers {
   // Control axis
   // chassis
-  public static DoubleSupplier chassisControlTranslation;
-  public static DoubleSupplier chassisControlStrafe;
-  public static DoubleSupplier chassisControlRotation;
+  public static DoubleSupplier chassisControlTranslation = null;
+  public static DoubleSupplier chassisControlStrafe = null;
+  public static DoubleSupplier chassisControlRotation = null;
 
   // Triggers
   // Chassis
-  public static Trigger wheelsXPosition;
-  public static Trigger steerWheels;
-  public static Trigger zeroHeading;
+  public static Trigger wheelsXPosition = null;
+  public static Trigger pointWheels = null;
+  public static Trigger zeroHeading = null;
 
   // Instance variables
   private final CommandXboxController controller;
@@ -28,9 +29,6 @@ public class Drivers {
   public Drivers withControl(CONTROLLABLE_SYSTEMS control) {
     switch (control) {
       case CHASSIS:
-
-        // dpad micro adjustments
-
         chassisControlTranslation = this::translate;
 
         chassisControlStrafe = () -> controller.getRawAxis(DriverConstants.ChassisControls.STRAFE);
@@ -38,7 +36,7 @@ public class Drivers {
             () -> controller.getRawAxis(DriverConstants.ChassisControls.ROTATION);
 
         wheelsXPosition = controller.button(DriverConstants.ChassisControls.WHEEL_X_POSITION);
-        steerWheels = controller.button(DriverConstants.ChassisControls.POINT_WHEELS);
+        pointWheels = controller.button(DriverConstants.ChassisControls.POINT_WHEELS);
         zeroHeading = controller.button(DriverConstants.ChassisControls.ZERO_HEADING);
         break;
 
