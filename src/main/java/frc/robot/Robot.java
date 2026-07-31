@@ -4,27 +4,16 @@
 
 package frc.robot;
 
-import org.littletonrobotics.junction.Logger;
-
-import java.util.List;
-
 import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import com.ctre.phoenix6.HootAutoReplay;
 import com.ctre.phoenix6.SignalLogger;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.util.sendable.SendableRegistry;
-import edu.wpi.first.wpilibj.DataLogManager;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -47,10 +36,9 @@ public class Robot extends LoggedRobot {
 
         sim = new RobotSim();
 
-        SendableRegistry.add(CommandScheduler.getInstance(),"Command Scheduler");
+        SendableRegistry.add(CommandScheduler.getInstance(), "Command Scheduler");
         SmartDashboard.putData(CommandScheduler.getInstance());
 
-     
         if (RobotBase.isReal()) {
             Logger.addDataReceiver(new WPILOGWriter()); // write logs to USB
         }
@@ -68,52 +56,10 @@ public class Robot extends LoggedRobot {
     public void robotPeriodic() {
         m_timeAndJoystickReplay.update();
         CommandScheduler.getInstance().run();
-
-        Pose2d robotPose = m_robotContainer.drivetrain.getState().Pose;
-
-        double length = 6.0;
-
-        Translation2d frontTranslation =
-            robotPose.getTranslation().plus(
-                new Translation2d(length, 0).rotateBy(robotPose.getRotation())
-            );
-
-        Pose2d frontPose = new Pose2d(frontTranslation, robotPose.getRotation());
-
-        Trajectory headingTrajectory = new Trajectory(
-            List.of(
-                new Trajectory.State(0, 0, 0, robotPose, 0),
-                new Trajectory.State(0, 0, 0, frontPose, 0)
-            )
-        );
-
-        // target trajectory
-        Translation2d targetTranslation =
-            robotPose.getTranslation().plus(
-                new Translation2d(length, 0).rotateBy(m_robotContainer.autoaim.getAngleToHub().plus(Rotation2d.fromDegrees(180)))
-            );
-
-
-        Pose2d targetPose = new Pose2d(targetTranslation, m_robotContainer.autoaim.getAngleToHub().plus(Rotation2d.fromDegrees(180)));
-
-        Trajectory targetTrajectory = new Trajectory(
-            List.of(
-                new Trajectory.State(0, 0, 0, robotPose, 0),
-                new Trajectory.State(0, 0, 0, targetPose, 0)
-            )
-        );
-
-        Pose2d targetPoint = new Pose2d(m_robotContainer.getHubX(), 4.034, new Rotation2d());
-
-        Logger.recordOutput("Annotations/TargetPoint", targetPoint);
-        Logger.recordOutput("Annotations/Pose", robotPose);
-        Logger.recordOutput("Annotations/Heading", headingTrajectory);
-        Logger.recordOutput("Annotations/targetHeading", targetTrajectory);
     }
 
     @Override
     public void disabledInit() {
-
         SignalLogger.stop();
     }
 
