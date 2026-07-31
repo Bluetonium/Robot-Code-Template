@@ -19,6 +19,7 @@ jobs:
     permissions:
       contents: read 
     steps:
+      - uses: actions/checkout@v4
       - name: Super-Linter
         uses: super-linter/super-linter@v8.7.0
   build:
