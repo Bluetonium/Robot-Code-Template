@@ -28,9 +28,7 @@
 *.rar
 
 
-.wpilib/
 logs/
 .gradle/
 build/
 ctre_sim/
-gradle/
