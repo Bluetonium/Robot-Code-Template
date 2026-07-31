@@ -35,3 +35,4 @@ build/
 ctre_sim/
 
 !gradle/wrapper/gradle-wrapper.jar
+src/main/java/frc/robot/BuildConstants.java
