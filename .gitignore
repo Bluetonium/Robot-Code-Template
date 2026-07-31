@@ -28,7 +28,10 @@
 *.rar
 
 
+#others
 logs/
 .gradle/
 build/
 ctre_sim/
+
+!gradle/wrapper/gradle-wrapper.jar
