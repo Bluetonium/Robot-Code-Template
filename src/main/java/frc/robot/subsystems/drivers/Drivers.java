@@ -22,25 +22,25 @@ public class Drivers {
   // Instance variables
   private final CommandXboxController controller;
 
-  private double translate() {
-    return controller.getRawAxis(DriverConstants.ChassisControls.TRANSLATION);
+  public Drivers(int port) {
+    controller = new CommandXboxController(port);
   }
 
   public Drivers withControl(CONTROLLABLE_SYSTEMS control) {
     switch (control) {
-      case CHASSIS:
-        chassisControlTranslation = this::translate;
+    case CHASSIS:
+      chassisControlTranslation = this::translate;
 
-        chassisControlStrafe = () -> controller.getRawAxis(DriverConstants.ChassisControls.STRAFE);
-        chassisControlRotation = () -> controller.getRawAxis(DriverConstants.ChassisControls.ROTATION);
+      chassisControlStrafe = () -> controller.getRawAxis(DriverConstants.ChassisControls.STRAFE);
+      chassisControlRotation = () -> controller.getRawAxis(DriverConstants.ChassisControls.ROTATION);
 
-        wheelsXPosition = controller.button(DriverConstants.ChassisControls.WHEEL_X_POSITION);
-        pointWheels = controller.button(DriverConstants.ChassisControls.POINT_WHEELS);
-        zeroHeading = controller.button(DriverConstants.ChassisControls.ZERO_HEADING);
-        break;
+      wheelsXPosition = controller.button(DriverConstants.ChassisControls.WHEEL_X_POSITION);
+      pointWheels = controller.button(DriverConstants.ChassisControls.POINT_WHEELS);
+      zeroHeading = controller.button(DriverConstants.ChassisControls.ZERO_HEADING);
+      break;
 
-      default:
-        throw new RuntimeException("No setup configured for control " + control.name());
+    default:
+      throw new RuntimeException("No setup configured for control " + control.name());
     }
 
     return this;
@@ -50,8 +50,8 @@ public class Drivers {
     return !controller.isConnected();
   }
 
-  public Drivers(int port) {
-    controller = new CommandXboxController(port);
+  private double translate() {
+    return controller.getRawAxis(DriverConstants.ChassisControls.TRANSLATION);
   }
 }
 // hello world
