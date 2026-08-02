@@ -10,6 +10,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.drivers.DriverConstants.CONTROLLABLE_SYSTEMS;
 import frc.robot.subsystems.drivers.Drivers;
 import frc.robot.subsystems.drivetrain.CommandSwerveDrivetrain;
+import frc.robot.subsystems.vision.Vision;
 import lombok.Getter;
 
 public class RobotContainer {
@@ -22,6 +23,9 @@ public class RobotContainer {
 
   @Getter
   private static Drivers driver2 = null;
+
+  @Getter
+  private static Vision vision = null;
 
   // audio
   private SendableChooser<Command> autoChooser; // TODO implement pathplanner
@@ -48,6 +52,8 @@ public class RobotContainer {
     driver2 = new Drivers(1);
 
     drivetrain = TunerConstants.createDrivetrain();
+
+    vision = new Vision();
   }
 
   private void setupSubsystems() {

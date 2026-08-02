@@ -12,8 +12,7 @@ import frc.robot.subsystems.drivers.Drivers;
 
 /** DrivetrainStates defines all commands and states */
 public class DrivetrainStates {
-    private static CommandSwerveDrivetrain swerve = RobotContainer.getDrivetrain();
-
+    private static CommandSwerveDrivetrain swerve;
     // Swerve requests
     private static final SwerveRequest brake = new SwerveRequest.SwerveDriveBrake();
     private static final SwerveRequest idle = new SwerveRequest.Idle();
@@ -27,6 +26,7 @@ public class DrivetrainStates {
     private static final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
     public static void setStates() {
+        swerve = RobotContainer.getDrivetrain();
 
         RobotStates.wheelXPosition.whileTrue(
                 swerve.applyRequest(() -> brake).withName("Chassis.WheelXPosition"));
