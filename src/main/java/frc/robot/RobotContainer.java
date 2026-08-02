@@ -14,11 +14,14 @@ import lombok.Getter;
 
 public class RobotContainer {
   // Subsystems
-  @Getter private static CommandSwerveDrivetrain drivetrain = null;
+  @Getter
+  private static CommandSwerveDrivetrain drivetrain = null;
 
-  @Getter private static Drivers driver1 = null;
+  @Getter
+  private static Drivers driver1 = null;
 
-  @Getter private static Drivers driver2 = null;
+  @Getter
+  private static Drivers driver2 = null;
 
   // audio
   private SendableChooser<Command> autoChooser; // TODO implement pathplanner

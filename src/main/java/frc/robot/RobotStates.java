@@ -7,12 +7,14 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.drivers.Drivers;
 
 public class RobotStates {
-  private RobotStates() {} // hide constructor
+  private RobotStates() {
+  } // hide constructor
 
   private static boolean isRed() {
 
     var alliance = DriverStation.getAlliance();
-    if (alliance.isPresent()) return alliance.get().equals(Alliance.Red);
+    if (alliance.isPresent())
+      return alliance.get().equals(Alliance.Red);
 
     return false;
   }

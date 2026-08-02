@@ -3,14 +3,16 @@ package frc.robot.subsystems.drivers;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class DriverConstants {
-  private DriverConstants() {} // Hide constructor
+  private DriverConstants() {
+  } // Hide constructor
 
   public static enum CONTROLLABLE_SYSTEMS {
     CHASSIS,
   }
 
   public static class ChassisControls {
-    private ChassisControls() {} // Hide constructor
+    private ChassisControls() {
+    } // Hide constructor
 
     public static int TRANSLATION = XboxController.Axis.kLeftY.value;
     public static int STRAFE = XboxController.Axis.kLeftX.value;

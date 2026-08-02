@@ -32,8 +32,7 @@ public class Drivers {
         chassisControlTranslation = this::translate;
 
         chassisControlStrafe = () -> controller.getRawAxis(DriverConstants.ChassisControls.STRAFE);
-        chassisControlRotation =
-            () -> controller.getRawAxis(DriverConstants.ChassisControls.ROTATION);
+        chassisControlRotation = () -> controller.getRawAxis(DriverConstants.ChassisControls.ROTATION);
 
         wheelsXPosition = controller.button(DriverConstants.ChassisControls.WHEEL_X_POSITION);
         pointWheels = controller.button(DriverConstants.ChassisControls.POINT_WHEELS);

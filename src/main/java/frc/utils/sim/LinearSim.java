@@ -1,6 +1,7 @@
 package frc.utils.sim;
 
 import com.ctre.phoenix6.sim.TalonFXSimState;
+
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;

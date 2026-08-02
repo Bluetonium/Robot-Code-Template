@@ -3,8 +3,8 @@ package frc.robot;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 
 public class RobotSim {
     public static final double height = 120;
@@ -13,7 +13,7 @@ public class RobotSim {
             Units.inchesToMeters(height));
 
     public RobotSim() {
-        
+
         SmartDashboard.putData("RightView", rightView);
         rightView.setBackgroundColor(new Color8Bit(Color.kLightGray));
     }
