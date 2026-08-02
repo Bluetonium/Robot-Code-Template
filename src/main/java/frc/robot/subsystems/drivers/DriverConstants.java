@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.XboxController;
 public class DriverConstants {
   public static enum CONTROLLABLE_SYSTEMS {
     CHASSIS,
+    TESTS
   }
 
   public static class ChassisControls {
@@ -22,6 +23,13 @@ public class DriverConstants {
 
     private ChassisControls() {
     } // Hide constructor
+  }
+
+  public static class TestControls {
+    public static int RUN_TEST = XboxController.Button.kA.value;
+  
+    private TestControls() {
+    }//Hide constructor
   }
 
   private DriverConstants() {
