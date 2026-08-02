@@ -58,5 +58,6 @@ public class RobotContainer {
 
   private void setupSubsystems() {
     drivetrain.setup();
+    vision.setup();
   }
 }
