@@ -10,7 +10,7 @@ public class RobotSim {
     public static final double height = 120;
     public static final double width = 60;
     public static final Mechanism2d rightView = new Mechanism2d(Units.inchesToMeters(width) * 2,
-            Units.inchesToMeters(height));
+    Units.inchesToMeters(height));
 
     public RobotSim() {
 

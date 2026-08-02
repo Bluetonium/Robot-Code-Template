@@ -64,7 +64,7 @@
   ],
   "java.configuration.updateBuildConfiguration": "automatic",
   "java.debug.settings.onBuildFailureProceed": true,
-  "java.format.settings.url": "eclipse-formatter.xml",
+  "java.format.settings.url": "${workspaceFolder}/.vscode/formatter.xml",
   "java.import.gradle.annotationProcessing.enabled": false,
   "java.server.launchMode": "Standard"
 }

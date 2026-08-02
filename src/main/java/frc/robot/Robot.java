@@ -28,7 +28,7 @@ public class Robot extends LoggedRobot {
 
   /* log and replay timestamp and joystick data */
   private final HootAutoReplay m_timeAndJoystickReplay = new HootAutoReplay().withTimestampReplay()
-      .withJoystickReplay();
+  .withJoystickReplay();
 
   public Robot() {
     m_robotContainer = new RobotContainer();
@@ -41,7 +41,8 @@ public class Robot extends LoggedRobot {
       Logger.addDataReceiver(new WPILOGWriter()); // write logs to USB
     }
 
-    Logger.addDataReceiver(new NT4Publisher()); // I don't really know what this does
+    Logger.addDataReceiver(new NT4Publisher()); // I don't really know what this
+                                                // does
     Logger.start();
   }
 
