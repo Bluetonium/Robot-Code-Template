@@ -66,5 +66,8 @@
   "java.debug.settings.onBuildFailureProceed": true,
   "java.format.settings.url": "${workspaceFolder}/.vscode/formatter.xml",
   "java.import.gradle.annotationProcessing.enabled": false,
-  "java.server.launchMode": "Standard"
+  "java.server.launchMode": "Standard",
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java"
+  },
 }
