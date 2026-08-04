@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.Bluetonium.BluetoniumSubsystemBase;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.SubsystemTesting;
 import frc.robot.subsystems.drivers.DriverConstants.CONTROLLABLE_SYSTEMS;
@@ -58,6 +59,10 @@ public class RobotContainer {
 
   private void setupSubsystems() {
     SubsystemTesting.setupTests();
-    drivetrain.setup();
+
+    BluetoniumSubsystemBase.getSubsystems().forEach((b) -> {
+      b.setupStates();
+      b.setupTests();
+    });
   }
 }
