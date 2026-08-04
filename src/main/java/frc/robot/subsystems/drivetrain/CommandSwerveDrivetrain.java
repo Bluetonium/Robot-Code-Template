@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Telemetry;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
+import frc.robot.subsystems.SubsystemTesting;
 
 public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Subsystem {
   private static final double kSimLoopPeriod = 0.004; // 4 ms
@@ -125,6 +126,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     setupPathPlanner();
 
     registerTelemetry(logger::telemeterize);
+    registerTests();
   }
 
   /**
@@ -244,6 +246,18 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
   public void setup() {
     DrivetrainStates.setStates();
+  }
+
+  private void registerTests() {
+    SubsystemTesting.registerTest(
+    m_sysIdRoutineTranslation.dynamic(SysIdRoutine.Direction.kForward).withName("translation.dynamic.forward"));
+    SubsystemTesting.registerTest(
+    m_sysIdRoutineTranslation.dynamic(SysIdRoutine.Direction.kReverse).withName("translation.dynamic.reverse"));
+    SubsystemTesting.registerTest(
+    m_sysIdRoutineTranslation.quasistatic(SysIdRoutine.Direction.kForward).withName("translation.quasistatic.forward"));
+    SubsystemTesting.registerTest(
+    m_sysIdRoutineTranslation.quasistatic(SysIdRoutine.Direction.kReverse).withName("translation.quasistatic.reverse"));
+
   }
 
   private void setupPathPlanner() {

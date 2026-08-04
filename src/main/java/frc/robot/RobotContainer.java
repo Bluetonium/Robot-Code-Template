@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.SubsystemTesting;
 import frc.robot.subsystems.drivers.DriverConstants.CONTROLLABLE_SYSTEMS;
 import frc.robot.subsystems.drivers.Drivers;
 import frc.robot.subsystems.drivetrain.CommandSwerveDrivetrain;
@@ -22,6 +23,10 @@ public class RobotContainer {
 
   @Getter
   private static Drivers driver2 = null;
+
+  @Getter
+  private static Drivers testingController = null;// used for running the
+                                                  // subsystem tests
 
   private static Command currentAuto;
   // audio
@@ -46,11 +51,14 @@ public class RobotContainer {
   private void initializeSubsystems() {
     driver1 = new Drivers(0).withControl(CONTROLLABLE_SYSTEMS.CHASSIS);
     driver2 = new Drivers(1);
+    testingController = new Drivers(2).withControl(CONTROLLABLE_SYSTEMS.TESTS);
 
     drivetrain = TunerConstants.createDrivetrain();
   }
 
   private void setupSubsystems() {
+    SubsystemTesting.setupTests();
     drivetrain.setup();
+
   }
 }

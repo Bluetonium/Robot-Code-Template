@@ -8,6 +8,7 @@
     "gradlew",
     "holonomic",
     "networktables",
+    "pathplanner",
     "Quasistatic",
     "telemeterize",
     "teleop",
