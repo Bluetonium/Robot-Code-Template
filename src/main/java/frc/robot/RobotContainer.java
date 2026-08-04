@@ -59,6 +59,5 @@ public class RobotContainer {
   private void setupSubsystems() {
     SubsystemTesting.setupTests();
     drivetrain.setup();
-
   }
 }

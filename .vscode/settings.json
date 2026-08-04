@@ -4,6 +4,7 @@
     "CTRE",
     "ctxt",
     "DEADBAND",
+    "Feedforward",
     "feedforwards",
     "gradlew",
     "holonomic",

@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.subsystems.drivers.Drivers;
 
 public class SubsystemTesting {
@@ -29,13 +31,17 @@ public class SubsystemTesting {
      * @param name the name of the command
      */
     public static void registerTest(Command testCommand, String name) {
-        if (registeredTests.contains(name)) {
+        String requirements = testCommand.getRequirements().stream().map((s) -> s.getName()).sorted()
+        .collect(Collectors.joining(","));
+
+        String fullName = String.format("[%s].%s", requirements, name);
+        if (registeredTests.contains(fullName)) {
             DriverStation.reportWarning(String.format("TEST %s is already registered!", name), true);
             return;
         }
 
-        registeredTests.add(name);
-        testSelector.addOption(name, testCommand);
+        registeredTests.add(fullName);
+        testSelector.addOption(fullName, testCommand);
     }
 
     /**
@@ -47,11 +53,19 @@ public class SubsystemTesting {
      * @param testCommand The command to run for the test
      */
     public static void registerTest(Command testCommand) {
-        String requirements = testCommand.getRequirements().stream().map((s) -> s.getName()).sorted()
-        .collect(Collectors.joining(","));
-
         String commandName = testCommand.getName();
+        registerTest(testCommand, commandName);
+    }
 
-        registerTest(testCommand, String.format("[%s].%s", requirements, commandName));
+    public static void registerSysIdTests(SysIdRoutine routine, String name) {
+        SubsystemTesting.registerTest(routine.dynamic(Direction.kForward), String.format("%s.dynamic.forward", name));
+
+        SubsystemTesting.registerTest(routine.dynamic(Direction.kReverse), String.format("%s.dynamic.reverse", name));
+
+        SubsystemTesting.registerTest(routine.quasistatic(Direction.kForward),
+        String.format("%s.quasistatic.forward", name));
+
+        SubsystemTesting.registerTest(routine.quasistatic(Direction.kReverse),
+        String.format("%s.quasistatic.reverse", name));
     }
 }
