@@ -11,6 +11,7 @@ import frc.robot.subsystems.SubsystemTesting;
 import frc.robot.subsystems.drivers.DriverConstants.CONTROLLABLE_SYSTEMS;
 import frc.robot.subsystems.drivers.Drivers;
 import frc.robot.subsystems.drivetrain.CommandSwerveDrivetrain;
+import frc.robot.subsystems.vision.Vision;
 import lombok.Getter;
 
 public class RobotContainer {
@@ -27,6 +28,7 @@ public class RobotContainer {
   @Getter
   private static Drivers testingController = null;// used for running the
                                                   // subsystem tests
+  private static Vision vision = null;
 
   private static Command currentAuto;
   // audio
@@ -54,10 +56,13 @@ public class RobotContainer {
     testingController = new Drivers(2).withControl(CONTROLLABLE_SYSTEMS.TESTS);
 
     drivetrain = TunerConstants.createDrivetrain();
+
+    vision = new Vision();
   }
 
   private void setupSubsystems() {
     SubsystemTesting.setupTests();
     drivetrain.setup();
+    vision.setup();
   }
 }
