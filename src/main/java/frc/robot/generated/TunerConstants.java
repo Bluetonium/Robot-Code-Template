@@ -263,7 +263,7 @@ public class TunerConstants {
          */
         public static CommandSwerveDrivetrain createDrivetrain() {
                 if (!RobotBase.isSimulation())
-                        throw new RuntimeException("Generate this file with CTRE's phoneix tuner. This is a temp file");
+                        throw new RuntimeException("Generate this file with CTRE's phoenix tuner. This is a temp file");
 
                 return new CommandSwerveDrivetrain(DrivetrainConstants, FrontLeft, FrontRight, BackLeft, BackRight);
         }

@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Telemetry;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
+import frc.robot.subsystems.SubsystemTesting;
 
 public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Subsystem {
   private static final double kSimLoopPeriod = 0.004; // 4 ms
@@ -45,38 +46,23 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
   private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
 
-  private final Telemetry logger = new Telemetry(DriveTrainConstants.MAX_SPEED);
+  private final Telemetry m_logger = new Telemetry(DriveTrainConstants.MAX_SPEED);
 
   /*
    * SysId routine for characterizing translation. This is used to find PID
    * gains for the drive motors.
    */
-  private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(new SysIdRoutine.Config(null, // Use
-                                                                                                        // default
-                                                                                                        // ramp
-                                                                                                        // rate
-                                                                                                        // (1
-                                                                                                        // V/s)
-  Volts.of(4), // Reduce dynamic step voltage to 4 V to prevent brownout
-  null, // Use default timeout (10 s)
-  // Log state with SignalLogger class
-  state -> SignalLogger.writeString("SysIdTranslation_State", state.toString())),
+  private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(new SysIdRoutine.Config(null,
+
+  Volts.of(4), null, state -> SignalLogger.writeString("SysIdTranslation_State", state.toString())),
   new SysIdRoutine.Mechanism(output -> setControl(m_translationCharacterization.withVolts(output)), null, this));
 
   /*
    * SysId routine for characterizing steer. This is used to find PID gains for
    * the steer motors.
    */
-  @SuppressWarnings("unused")
-  private final SysIdRoutine m_sysIdRoutineSteer = new SysIdRoutine(new SysIdRoutine.Config(null, // Use
-                                                                                                  // default
-                                                                                                  // ramp
-                                                                                                  // rate
-                                                                                                  // (1
-                                                                                                  // V/s)
-  Volts.of(7), // Use dynamic voltage of 7 V
-  null, // Use default timeout (10 s)
-  // Log state with SignalLogger class
+  private final SysIdRoutine m_sysIdRoutineSteer = new SysIdRoutine(
+  new SysIdRoutine.Config(null, Volts.of(7), null,
   state -> SignalLogger.writeString("SysIdSteer_State", state.toString())),
   new SysIdRoutine.Mechanism(volts -> setControl(m_steerCharacterization.withVolts(volts)), null, this));
 
@@ -85,7 +71,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    * for the FieldCentricFacingAngle HeadingController. See the documentation of
    * SwerveRequest.SysIdSwerveRotation for info on importing the log to SysId.
    */
-  @SuppressWarnings("unused")
   private final SysIdRoutine m_sysIdRoutineRotation = new SysIdRoutine(new SysIdRoutine.Config(
   /*
    * This is in radians per second², but SysId only supports "volts per second"
@@ -100,9 +85,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     /* also log the requested output for SysId */
     SignalLogger.writeDouble("Rotational_Rate", output.in(Volts));
   }, null, this));
-
-  /* The SysId routine to test */
-  private SysIdRoutine m_sysIdRoutineToApply = m_sysIdRoutineTranslation;
 
   /**
    * Constructs a CTRE SwerveDrivetrain using the specified constants.
@@ -123,8 +105,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     setupPathPlanner();
-
-    registerTelemetry(logger::telemeterize);
+    registerTelemetry(m_logger::telemeterize);
+    registerTests();
   }
 
   /**
@@ -187,28 +169,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     return run(() -> this.setControl(request.get()));
   }
 
-  /**
-   * Runs the SysId Quasistatic test in the given direction for the routine
-   * specified by {@link #m_sysIdRoutineToApply}.
-   *
-   * @param direction Direction of the SysId Quasistatic test
-   * @return Command to run
-   */
-  public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
-    return m_sysIdRoutineToApply.quasistatic(direction);
-  }
-
-  /**
-   * Runs the SysId Dynamic test in the given direction for the routine
-   * specified by {@link #m_sysIdRoutineToApply}.
-   *
-   * @param direction Direction of the SysId Dynamic test
-   * @return Command to run
-   */
-  public Command sysIdDynamic(SysIdRoutine.Direction direction) {
-    return m_sysIdRoutineToApply.dynamic(direction);
-  }
-
   @Override
   public void periodic() {
     /*
@@ -220,7 +180,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * change until an explicit disable event occurs during testing.
      */
     if (!m_hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
-      // TODO maybe we could replace this with on enabled trigger
 
       DriverStation.getAlliance().ifPresent(allianceColor -> {
         setOperatorPerspectiveForward(
@@ -244,6 +203,12 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
   public void setup() {
     DrivetrainStates.setStates();
+  }
+
+  private void registerTests() {
+    SubsystemTesting.registerSysIdTests(m_sysIdRoutineRotation, "Rotation");
+    SubsystemTesting.registerSysIdTests(m_sysIdRoutineSteer, "Steer");
+    SubsystemTesting.registerSysIdTests(m_sysIdRoutineTranslation, "Translation");
   }
 
   private void setupPathPlanner() {

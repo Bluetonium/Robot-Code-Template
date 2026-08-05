@@ -17,7 +17,7 @@ public class RobotStates {
   public static Trigger dsAttached;
   public static Trigger endGame;
   public static Trigger Estopped;
-  public static Trigger isRed; // TODO create this
+  public static Trigger isRed;
   // chassis
   public static Trigger wheelXPosition;
   public static Trigger zeroHeading;

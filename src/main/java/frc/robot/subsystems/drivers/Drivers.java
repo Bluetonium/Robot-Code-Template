@@ -19,6 +19,9 @@ public class Drivers {
   public static Trigger pointWheels = null;
   public static Trigger zeroHeading = null;
 
+  // Tests
+  public static Trigger runTest = null;
+
   // Instance variables
   private final CommandXboxController controller;
 
@@ -28,19 +31,23 @@ public class Drivers {
 
   public Drivers withControl(CONTROLLABLE_SYSTEMS control) {
     switch (control) {
-    case CHASSIS:
-      chassisControlTranslation = this::translate;
+      case CHASSIS:
+        chassisControlTranslation = this::translate;
 
-      chassisControlStrafe = () -> controller.getRawAxis(DriverConstants.ChassisControls.STRAFE);
-      chassisControlRotation = () -> controller.getRawAxis(DriverConstants.ChassisControls.ROTATION);
+        chassisControlStrafe = () -> controller.getRawAxis(DriverConstants.ChassisControls.STRAFE);
+        chassisControlRotation = () -> controller.getRawAxis(DriverConstants.ChassisControls.ROTATION);
 
-      wheelsXPosition = controller.button(DriverConstants.ChassisControls.WHEEL_X_POSITION);
-      pointWheels = controller.button(DriverConstants.ChassisControls.POINT_WHEELS);
-      zeroHeading = controller.button(DriverConstants.ChassisControls.ZERO_HEADING);
-      break;
+        wheelsXPosition = controller.button(DriverConstants.ChassisControls.WHEEL_X_POSITION);
+        pointWheels = controller.button(DriverConstants.ChassisControls.POINT_WHEELS);
+        zeroHeading = controller.button(DriverConstants.ChassisControls.ZERO_HEADING);
+        break;
 
-    default:
-      throw new RuntimeException("No setup configured for control " + control.name());
+      case TESTS:
+        runTest = controller.button(DriverConstants.TestControls.RUN_TEST);
+        break;
+
+      default:
+        throw new RuntimeException("No setup configured for control " + control.name());
     }
 
     return this;
