@@ -54,17 +54,17 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    */
   private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(new SysIdRoutine.Config(null,
 
-  Volts.of(4), null, state -> SignalLogger.writeString("SysIdTranslation_State", state.toString())),
-  new SysIdRoutine.Mechanism(output -> setControl(m_translationCharacterization.withVolts(output)), null, this));
+      Volts.of(4), null, state -> SignalLogger.writeString("SysIdTranslation_State", state.toString())),
+      new SysIdRoutine.Mechanism(output -> setControl(m_translationCharacterization.withVolts(output)), null, this));
 
   /*
    * SysId routine for characterizing steer. This is used to find PID gains for
    * the steer motors.
    */
   private final SysIdRoutine m_sysIdRoutineSteer = new SysIdRoutine(
-  new SysIdRoutine.Config(null, Volts.of(7), null,
-  state -> SignalLogger.writeString("SysIdSteer_State", state.toString())),
-  new SysIdRoutine.Mechanism(volts -> setControl(m_steerCharacterization.withVolts(volts)), null, this));
+      new SysIdRoutine.Config(null, Volts.of(7), null,
+          state -> SignalLogger.writeString("SysIdSteer_State", state.toString())),
+      new SysIdRoutine.Mechanism(volts -> setControl(m_steerCharacterization.withVolts(volts)), null, this));
 
   /*
    * SysId routine for characterizing rotation. This is used to find PID gains
@@ -72,19 +72,20 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    * SwerveRequest.SysIdSwerveRotation for info on importing the log to SysId.
    */
   private final SysIdRoutine m_sysIdRoutineRotation = new SysIdRoutine(new SysIdRoutine.Config(
-  /*
-   * This is in radians per second², but SysId only supports "volts per second"
-   */
-  Volts.of(Math.PI / 6).per(Second),
-  /* This is in radians per second, but SysId only supports "volts" */
-  Volts.of(Math.PI), null, // Use default timeout (10 s)
-  // Log state with SignalLogger class
-  state -> SignalLogger.writeString("SysIdRotation_State", state.toString())), new SysIdRoutine.Mechanism(output -> {
-    /* output is actually radians per second, but SysId only supports "volts" */
-    setControl(m_rotationCharacterization.withRotationalRate(output.in(Volts)));
-    /* also log the requested output for SysId */
-    SignalLogger.writeDouble("Rotational_Rate", output.in(Volts));
-  }, null, this));
+      /*
+       * This is in radians per second², but SysId only supports "volts per second"
+       */
+      Volts.of(Math.PI / 6).per(Second),
+      /* This is in radians per second, but SysId only supports "volts" */
+      Volts.of(Math.PI), null, // Use default timeout (10 s)
+      // Log state with SignalLogger class
+      state -> SignalLogger.writeString("SysIdRotation_State", state.toString())),
+      new SysIdRoutine.Mechanism(output -> {
+        /* output is actually radians per second, but SysId only supports "volts" */
+        setControl(m_rotationCharacterization.withRotationalRate(output.in(Volts)));
+        /* also log the requested output for SysId */
+        SignalLogger.writeDouble("Rotational_Rate", output.in(Volts));
+      }, null, this));
 
   /**
    * Constructs a CTRE SwerveDrivetrain using the specified constants.
@@ -95,10 +96,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    * them through getters in the classes.
    *
    * @param drivetrainConstants Drivetrain-wide constants for the swerve drive
-   * @param modules Constants for each specific module
+   * @param modules             Constants for each specific module
    */
   public CommandSwerveDrivetrain(SwerveDrivetrainConstants drivetrainConstants,
-  SwerveModuleConstants<?, ?, ?>... modules) {
+      SwerveModuleConstants<?, ?, ?>... modules) {
     super(drivetrainConstants, modules);
     if (Utils.isSimulation()) {
       startSimThread();
@@ -117,14 +118,15 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    * construct the devices themselves. If they need the devices, they can access
    * them through getters in the classes.
    *
-   * @param drivetrainConstants Drivetrain-wide constants for the swerve drive
+   * @param drivetrainConstants     Drivetrain-wide constants for the swerve drive
    * @param odometryUpdateFrequency The frequency to run the odometry loop. If
-   * unspecified or set to 0 Hz, this is 250 Hz on CAN FD, and 100 Hz on CAN
-   * 2.0.
-   * @param modules Constants for each specific module
+   *                                unspecified or set to 0 Hz, this is 250 Hz on
+   *                                CAN FD, and 100 Hz on CAN
+   *                                2.0.
+   * @param modules                 Constants for each specific module
    */
   public CommandSwerveDrivetrain(SwerveDrivetrainConstants drivetrainConstants, double odometryUpdateFrequency,
-  SwerveModuleConstants<?, ?, ?>... modules) {
+      SwerveModuleConstants<?, ?, ?>... modules) {
     super(drivetrainConstants, odometryUpdateFrequency, modules);
     if (Utils.isSimulation()) {
       startSimThread();
@@ -139,19 +141,23 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    * construct the devices themselves. If they need the devices, they can access
    * them through getters in the classes.
    *
-   * @param drivetrainConstants Drivetrain-wide constants for the swerve drive
-   * @param odometryUpdateFrequency The frequency to run the odometry loop. If
-   * unspecified or set to 0 Hz, this is 250 Hz on CAN FD, and 100 Hz on CAN
-   * 2.0.
+   * @param drivetrainConstants       Drivetrain-wide constants for the swerve
+   *                                  drive
+   * @param odometryUpdateFrequency   The frequency to run the odometry loop. If
+   *                                  unspecified or set to 0 Hz, this is 250 Hz
+   *                                  on CAN FD, and 100 Hz on CAN
+   *                                  2.0.
    * @param odometryStandardDeviation The standard deviation for odometry
-   * calculation in the form [x, y, theta]ᵀ, with units in meters and radians
-   * @param visionStandardDeviation The standard deviation for vision
-   * calculation in the form [x, y, theta]ᵀ, with units in meters and radians
-   * @param modules Constants for each specific module
+   *                                  calculation in the form [x, y, theta]ᵀ, with
+   *                                  units in meters and radians
+   * @param visionStandardDeviation   The standard deviation for vision
+   *                                  calculation in the form [x, y, theta]ᵀ, with
+   *                                  units in meters and radians
+   * @param modules                   Constants for each specific module
    */
   public CommandSwerveDrivetrain(SwerveDrivetrainConstants drivetrainConstants, double odometryUpdateFrequency,
-  Matrix<N3, N1> odometryStandardDeviation, Matrix<N3, N1> visionStandardDeviation,
-  SwerveModuleConstants<?, ?, ?>... modules) {
+      Matrix<N3, N1> odometryStandardDeviation, Matrix<N3, N1> visionStandardDeviation,
+      SwerveModuleConstants<?, ?, ?>... modules) {
     super(drivetrainConstants, odometryUpdateFrequency, odometryStandardDeviation, visionStandardDeviation, modules);
     if (Utils.isSimulation()) {
       startSimThread();
@@ -183,7 +189,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
       DriverStation.getAlliance().ifPresent(allianceColor -> {
         setOperatorPerspectiveForward(
-        allianceColor == Alliance.Red ? kRedAlliancePerspectiveRotation : kBlueAlliancePerspectiveRotation);
+            allianceColor == Alliance.Red ? kRedAlliancePerspectiveRotation : kBlueAlliancePerspectiveRotation);
         m_hasAppliedOperatorPerspective = true;
       });
     }

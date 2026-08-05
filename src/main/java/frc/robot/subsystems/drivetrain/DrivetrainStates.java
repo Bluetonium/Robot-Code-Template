@@ -7,8 +7,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.RobotStates;
-import frc.robot.subsystems.drivers.DriverConstants;
-import frc.robot.subsystems.drivers.Drivers;
+import frc.robot.subsystems.operator.Operator;
+import frc.robot.subsystems.operator.OperatorConstants;
 
 /** DrivetrainStates defines all commands and states */
 public class DrivetrainStates {
@@ -18,20 +18,23 @@ public class DrivetrainStates {
         private static final SwerveRequest brake = new SwerveRequest.SwerveDriveBrake();
         private static final SwerveRequest idle = new SwerveRequest.Idle();
         private static final SwerveRequest.FieldCentric fieldCentricDrive = new SwerveRequest.FieldCentric()
-        .withDeadband(DriveTrainConstants.MAX_SPEED * DriverConstants.ChassisControls.TRANSLATION_DEADBAND)
-        .withRotationalDeadband(
-        DriveTrainConstants.MAX_ANGULAR_SPEED * DriverConstants.ChassisControls.ROTATION_DEADBAND)
-        .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+                        .withDeadband(DriveTrainConstants.MAX_SPEED
+                                        * OperatorConstants.ChassisControls.TRANSLATION_DEADBAND)
+                        .withRotationalDeadband(
+                                        DriveTrainConstants.MAX_ANGULAR_SPEED
+                                                        * OperatorConstants.ChassisControls.ROTATION_DEADBAND)
+                        .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
         private static final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
         public static void setStates() {
                 swerve = RobotContainer.getDrivetrain();
 
                 RobotStates.wheelXPosition
-                .whileTrue(swerve.applyRequest(() -> brake).withName("Chassis.WheelXPosition"));
+                                .whileTrue(swerve.applyRequest(() -> brake).withName("Chassis.WheelXPosition"));
                 RobotStates.disabled.whileTrue(swerve.applyRequest(() -> idle).withName("Chassis.Idle"));
                 RobotStates.zeroHeading
-                .onTrue(swerve.runOnce(() -> swerve.seedFieldCentric()).withName("Chassis.ZeroHeading"));
+                                .onTrue(swerve.runOnce(() -> swerve.seedFieldCentric())
+                                                .withName("Chassis.ZeroHeading"));
 
                 RobotStates.pointWheel.whileTrue(pointWheels());
 
@@ -40,17 +43,22 @@ public class DrivetrainStates {
 
         private static Command teleopDrive() {
                 return swerve
-                .applyRequest(() -> fieldCentricDrive
-                .withVelocityX(-Drivers.chassisControlTranslation.getAsDouble() * DriveTrainConstants.MAX_SPEED)
-                .withVelocityY(-Drivers.chassisControlStrafe.getAsDouble() * DriveTrainConstants.MAX_SPEED)
-                .withRotationalRate(
-                -Drivers.chassisControlRotation.getAsDouble() * DriveTrainConstants.MAX_ANGULAR_SPEED))
-                .withName("Chassis.TeleopDrive");
+                                .applyRequest(() -> fieldCentricDrive
+                                                .withVelocityX(-Operator.chassisControlTranslation.getAsDouble()
+                                                                * DriveTrainConstants.MAX_SPEED)
+                                                .withVelocityY(-Operator.chassisControlStrafe.getAsDouble()
+                                                                * DriveTrainConstants.MAX_SPEED)
+                                                .withRotationalRate(
+                                                                -Operator.chassisControlRotation.getAsDouble()
+                                                                                * DriveTrainConstants.MAX_ANGULAR_SPEED))
+                                .withName("Chassis.TeleopDrive");
         }
 
         private static Command pointWheels() {
                 return swerve.applyRequest(
-                () -> point.withModuleDirection(new Rotation2d(-Drivers.chassisControlTranslation.getAsDouble(),
-                -Drivers.chassisControlStrafe.getAsDouble()))).withName("Chassis.PointWheels");
+                                () -> point.withModuleDirection(
+                                                new Rotation2d(-Operator.chassisControlTranslation.getAsDouble(),
+                                                                -Operator.chassisControlStrafe.getAsDouble())))
+                                .withName("Chassis.PointWheels");
         }
 }

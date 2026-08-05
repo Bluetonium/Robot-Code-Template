@@ -1,12 +1,12 @@
-package frc.robot.subsystems.drivers;
+package frc.robot.subsystems.operator;
 
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.drivers.DriverConstants.CONTROLLABLE_SYSTEMS;
+import frc.robot.subsystems.operator.OperatorConstants.CONTROLLABLE_SYSTEMS;
 
-public class Drivers {
+public class Operator {
   // Control axis
   // chassis
   public static DoubleSupplier chassisControlTranslation = null;
@@ -25,25 +25,25 @@ public class Drivers {
   // Instance variables
   private final CommandXboxController controller;
 
-  public Drivers(int port) {
+  public Operator(int port) {
     controller = new CommandXboxController(port);
   }
 
-  public Drivers withControl(CONTROLLABLE_SYSTEMS control) {
+  public Operator withControl(CONTROLLABLE_SYSTEMS control) {
     switch (control) {
       case CHASSIS:
         chassisControlTranslation = this::translate;
 
-        chassisControlStrafe = () -> controller.getRawAxis(DriverConstants.ChassisControls.STRAFE);
-        chassisControlRotation = () -> controller.getRawAxis(DriverConstants.ChassisControls.ROTATION);
+        chassisControlStrafe = () -> controller.getRawAxis(OperatorConstants.ChassisControls.STRAFE);
+        chassisControlRotation = () -> controller.getRawAxis(OperatorConstants.ChassisControls.ROTATION);
 
-        wheelsXPosition = controller.button(DriverConstants.ChassisControls.WHEEL_X_POSITION);
-        pointWheels = controller.button(DriverConstants.ChassisControls.POINT_WHEELS);
-        zeroHeading = controller.button(DriverConstants.ChassisControls.ZERO_HEADING);
+        wheelsXPosition = controller.button(OperatorConstants.ChassisControls.WHEEL_X_POSITION);
+        pointWheels = controller.button(OperatorConstants.ChassisControls.POINT_WHEELS);
+        zeroHeading = controller.button(OperatorConstants.ChassisControls.ZERO_HEADING);
         break;
 
       case TESTS:
-        runTest = controller.button(DriverConstants.TestControls.RUN_TEST);
+        runTest = controller.button(OperatorConstants.TestControls.RUN_TEST);
         break;
 
       default:
@@ -58,7 +58,7 @@ public class Drivers {
   }
 
   private double translate() {
-    return controller.getRawAxis(DriverConstants.ChassisControls.TRANSLATION);
+    return controller.getRawAxis(OperatorConstants.ChassisControls.TRANSLATION);
   }
 }
 // hello world

@@ -1,8 +1,8 @@
-package frc.robot.subsystems.drivers;
+package frc.robot.subsystems.operator;
 
 import edu.wpi.first.wpilibj.XboxController;
 
-public class DriverConstants {
+public class OperatorConstants {
   public static enum CONTROLLABLE_SYSTEMS {
     CHASSIS,
     TESTS
@@ -27,11 +27,11 @@ public class DriverConstants {
 
   public static class TestControls {
     public static int RUN_TEST = XboxController.Button.kA.value;
-  
+
     private TestControls() {
-    }//Hide constructor
+    }// Hide constructor
   }
 
-  private DriverConstants() {
+  private OperatorConstants() {
   } // Hide constructor
 }

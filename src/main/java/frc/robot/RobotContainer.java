@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.SubsystemTesting;
-import frc.robot.subsystems.drivers.DriverConstants.CONTROLLABLE_SYSTEMS;
-import frc.robot.subsystems.drivers.Drivers;
 import frc.robot.subsystems.drivetrain.CommandSwerveDrivetrain;
+import frc.robot.subsystems.operator.Operator;
+import frc.robot.subsystems.operator.OperatorConstants.CONTROLLABLE_SYSTEMS;
 import frc.robot.subsystems.vision.Vision;
 import lombok.Getter;
 
@@ -20,14 +20,14 @@ public class RobotContainer {
   private static CommandSwerveDrivetrain drivetrain = null;
 
   @Getter
-  private static Drivers driver1 = null;
+  private static Operator driver1 = null;
 
   @Getter
-  private static Drivers driver2 = null;
+  private static Operator driver2 = null;
 
   @Getter
-  private static Drivers testingController = null;// used for running the
-                                                  // subsystem tests
+  private static Operator testingController = null;// used for running the
+                                                   // subsystem tests
   @Getter
   private static Vision vision = null;
 
@@ -52,9 +52,9 @@ public class RobotContainer {
   }
 
   private void initializeSubsystems() {
-    driver1 = new Drivers(0).withControl(CONTROLLABLE_SYSTEMS.CHASSIS);
-    driver2 = new Drivers(1);
-    testingController = new Drivers(2).withControl(CONTROLLABLE_SYSTEMS.TESTS);
+    driver1 = new Operator(0).withControl(CONTROLLABLE_SYSTEMS.CHASSIS);
+    driver2 = new Operator(1);
+    testingController = new Operator(2).withControl(CONTROLLABLE_SYSTEMS.TESTS);
 
     drivetrain = TunerConstants.createDrivetrain();
 
