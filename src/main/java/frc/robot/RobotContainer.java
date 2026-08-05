@@ -28,6 +28,7 @@ public class RobotContainer {
   @Getter
   private static Drivers testingController = null;// used for running the
                                                   // subsystem tests
+  @Getter
   private static Vision vision = null;
 
   private static Command currentAuto;
