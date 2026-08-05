@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.subsystems.operator.Operator;
+import frc.robot.subsystems.controller.Controller;
 
 public class SubsystemTesting {
     private static SendableChooser<Command> testSelector = new SendableChooser<>();
@@ -19,7 +19,7 @@ public class SubsystemTesting {
     public static void setupTests() {
         SmartDashboard.putData("Test Chooser", testSelector);
 
-        Operator.runTest.whileTrue(Commands.deferredProxy(() -> {
+        Controller.runTest.whileTrue(Commands.deferredProxy(() -> {
             return testSelector.getSelected();
         }));
     }

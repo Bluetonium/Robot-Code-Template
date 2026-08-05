@@ -1,12 +1,12 @@
-package frc.robot.subsystems.operator;
+package frc.robot.subsystems.controller;
 
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.operator.OperatorConstants.CONTROLLABLE_SYSTEMS;
+import frc.robot.subsystems.controller.ControllerConstants.CONTROLLABLE_SYSTEMS;
 
-public class Operator {
+public class Controller {
   // Control axis
   // chassis
   public static DoubleSupplier chassisControlTranslation = null;
@@ -25,25 +25,25 @@ public class Operator {
   // Instance variables
   private final CommandXboxController controller;
 
-  public Operator(int port) {
+  public Controller(int port) {
     controller = new CommandXboxController(port);
   }
 
-  public Operator withControl(CONTROLLABLE_SYSTEMS control) {
+  public Controller withControl(CONTROLLABLE_SYSTEMS control) {
     switch (control) {
       case CHASSIS:
         chassisControlTranslation = this::translate;
 
-        chassisControlStrafe = () -> controller.getRawAxis(OperatorConstants.ChassisControls.STRAFE);
-        chassisControlRotation = () -> controller.getRawAxis(OperatorConstants.ChassisControls.ROTATION);
+        chassisControlStrafe = () -> controller.getRawAxis(ControllerConstants.ChassisControls.STRAFE);
+        chassisControlRotation = () -> controller.getRawAxis(ControllerConstants.ChassisControls.ROTATION);
 
-        wheelsXPosition = controller.button(OperatorConstants.ChassisControls.WHEEL_X_POSITION);
-        pointWheels = controller.button(OperatorConstants.ChassisControls.POINT_WHEELS);
-        zeroHeading = controller.button(OperatorConstants.ChassisControls.ZERO_HEADING);
+        wheelsXPosition = controller.button(ControllerConstants.ChassisControls.WHEEL_X_POSITION);
+        pointWheels = controller.button(ControllerConstants.ChassisControls.POINT_WHEELS);
+        zeroHeading = controller.button(ControllerConstants.ChassisControls.ZERO_HEADING);
         break;
 
       case TESTS:
-        runTest = controller.button(OperatorConstants.TestControls.RUN_TEST);
+        runTest = controller.button(ControllerConstants.TestControls.RUN_TEST);
         break;
 
       default:
@@ -58,7 +58,7 @@ public class Operator {
   }
 
   private double translate() {
-    return controller.getRawAxis(OperatorConstants.ChassisControls.TRANSLATION);
+    return controller.getRawAxis(ControllerConstants.ChassisControls.TRANSLATION);
   }
 }
 // hello world

@@ -1,8 +1,8 @@
-package frc.robot.subsystems.operator;
+package frc.robot.subsystems.controller;
 
 import edu.wpi.first.wpilibj.XboxController;
 
-public class OperatorConstants {
+public class ControllerConstants {
   public static enum CONTROLLABLE_SYSTEMS {
     CHASSIS,
     TESTS
@@ -32,6 +32,6 @@ public class OperatorConstants {
     }// Hide constructor
   }
 
-  private OperatorConstants() {
+  private ControllerConstants() {
   } // Hide constructor
 }

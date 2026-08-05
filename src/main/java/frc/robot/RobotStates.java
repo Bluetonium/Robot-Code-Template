@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.operator.Operator;
+import frc.robot.subsystems.controller.Controller;
 
 public class RobotStates {
   // states
@@ -37,9 +37,9 @@ public class RobotStates {
     endGame = teleop.and(() -> DriverStation.getMatchTime() < 20);
 
     // chassis
-    wheelXPosition = Operator.wheelsXPosition;
-    zeroHeading = Operator.zeroHeading;
-    pointWheel = Operator.pointWheels;
+    wheelXPosition = Controller.wheelsXPosition;
+    zeroHeading = Controller.zeroHeading;
+    pointWheel = Controller.pointWheels;
   }
 
   private static boolean isRed() {

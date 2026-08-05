@@ -7,8 +7,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.RobotStates;
-import frc.robot.subsystems.operator.Operator;
-import frc.robot.subsystems.operator.OperatorConstants;
+import frc.robot.subsystems.controller.Controller;
+import frc.robot.subsystems.controller.ControllerConstants;
 
 /** DrivetrainStates defines all commands and states */
 public class DrivetrainStates {
@@ -19,10 +19,10 @@ public class DrivetrainStates {
         private static final SwerveRequest idle = new SwerveRequest.Idle();
         private static final SwerveRequest.FieldCentric fieldCentricDrive = new SwerveRequest.FieldCentric()
                         .withDeadband(DriveTrainConstants.MAX_SPEED
-                                        * OperatorConstants.ChassisControls.TRANSLATION_DEADBAND)
+                                        * ControllerConstants.ChassisControls.TRANSLATION_DEADBAND)
                         .withRotationalDeadband(
                                         DriveTrainConstants.MAX_ANGULAR_SPEED
-                                                        * OperatorConstants.ChassisControls.ROTATION_DEADBAND)
+                                                        * ControllerConstants.ChassisControls.ROTATION_DEADBAND)
                         .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
         private static final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
@@ -44,12 +44,12 @@ public class DrivetrainStates {
         private static Command teleopDrive() {
                 return swerve
                                 .applyRequest(() -> fieldCentricDrive
-                                                .withVelocityX(-Operator.chassisControlTranslation.getAsDouble()
+                                                .withVelocityX(-Controller.chassisControlTranslation.getAsDouble()
                                                                 * DriveTrainConstants.MAX_SPEED)
-                                                .withVelocityY(-Operator.chassisControlStrafe.getAsDouble()
+                                                .withVelocityY(-Controller.chassisControlStrafe.getAsDouble()
                                                                 * DriveTrainConstants.MAX_SPEED)
                                                 .withRotationalRate(
-                                                                -Operator.chassisControlRotation.getAsDouble()
+                                                                -Controller.chassisControlRotation.getAsDouble()
                                                                                 * DriveTrainConstants.MAX_ANGULAR_SPEED))
                                 .withName("Chassis.TeleopDrive");
         }
@@ -57,8 +57,8 @@ public class DrivetrainStates {
         private static Command pointWheels() {
                 return swerve.applyRequest(
                                 () -> point.withModuleDirection(
-                                                new Rotation2d(-Operator.chassisControlTranslation.getAsDouble(),
-                                                                -Operator.chassisControlStrafe.getAsDouble())))
+                                                new Rotation2d(-Controller.chassisControlTranslation.getAsDouble(),
+                                                                -Controller.chassisControlStrafe.getAsDouble())))
                                 .withName("Chassis.PointWheels");
         }
 }
