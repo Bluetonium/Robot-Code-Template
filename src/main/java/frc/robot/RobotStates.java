@@ -1,7 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.controller.Controller;
@@ -32,7 +31,7 @@ public class RobotStates {
     disabled = new Trigger(RobotState::isDisabled);
     dsAttached = new Trigger(DriverStation::isDSAttached);
     Estopped = new Trigger(DriverStation::isEStopped);
-    isRed = new Trigger(RobotStates::isRed);
+    isRed = new Trigger(Robot::isRed);
 
     endGame = teleop.and(() -> DriverStation.getMatchTime() < 20);
 
@@ -40,15 +39,6 @@ public class RobotStates {
     wheelXPosition = Controller.wheelsXPosition;
     zeroHeading = Controller.zeroHeading;
     pointWheel = Controller.pointWheels;
-  }
-
-  private static boolean isRed() {
-
-    var alliance = DriverStation.getAlliance();
-    if (alliance.isPresent())
-      return alliance.get().equals(Alliance.Red);
-
-    return false;
   }
 
   private RobotStates() {
