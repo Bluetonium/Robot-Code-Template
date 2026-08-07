@@ -26,24 +26,18 @@ public class ArmSim implements Mount, Mountable {
     public ArmSim(ArmConfig config, Mechanism2d mech, TalonFXSimState armMotorSim, String name) {
         this.config = config;
         this.armMotorSim = armMotorSim;
-        armSim = new SingleJointedArmSim(
-                DCMotor.getKrakenX60Foc(config.getNumMotors()),
-                config.getRatio(),
-                config.getSimMOI(),
-                config.getSimCGLength(),
-                config.getMinAngle(),
-                config.getMaxAngle(),
-                false, // Simulate gravity (change back to true)
-                config.getStartingAngle());
+        armSim = new SingleJointedArmSim(DCMotor.getKrakenX60Foc(config.getNumMotors()), config.getRatio(),
+        config.getSimMOI(), config.getSimCGLength(), config.getMinAngle(), config.getMaxAngle(), false, // Simulate
+                                                                                                        // gravity
+                                                                                                        // (change
+                                                                                                        // back
+                                                                                                        // to
+                                                                                                        // true)
+        config.getStartingAngle());
 
         armPivot = mech.getRoot(name + " Arm Pivot", config.getPivotX(), config.getPivotY());
         armMech2d = armPivot.append(
-                new MechanismLigament2d(
-                        name + " Arm",
-                        config.getLength(),
-                        config.getMinAngle(),
-                        5.0,
-                        config.getColor()));
+        new MechanismLigament2d(name + " Arm", config.getLength(), config.getMinAngle(), 5.0, config.getColor()));
     }
 
     public void simulationPeriodic() {
@@ -59,11 +53,9 @@ public class ArmSim implements Mount, Mountable {
         // armMotorSim.setRotorVelocity(
         // armSim.getVelocityRadPerSec() * config.getRatio() / (2.0 * Math.PI));
         armMotorSim.setRawRotorPosition(
-                (Units.radiansToRotations(armSim.getAngleRads() - config.getStartingAngle()))
-                        * config.getRatio());
+        (Units.radiansToRotations(armSim.getAngleRads() - config.getStartingAngle())) * config.getRatio());
 
-        armMotorSim.setRotorVelocity(
-                Units.radiansToRotations(armSim.getVelocityRadPerSec()) * config.getRatio());
+        armMotorSim.setRotorVelocity(Units.radiansToRotations(armSim.getVelocityRadPerSec()) * config.getRatio());
 
         // ------ Update viz based on sim
         if (config.isMounted()) {
@@ -72,9 +64,8 @@ public class ArmSim implements Mount, Mountable {
             if (config.isAbsAngle()) {
                 armMech2d.setAngle(Math.toDegrees(armSim.getAngleRads()));
             } else {
-                armMech2d.setAngle(
-                        Math.toDegrees(armSim.getAngleRads())
-                                + Math.toDegrees(config.getMount().getAngle()));
+                armMech2d
+                .setAngle(Math.toDegrees(armSim.getAngleRads()) + Math.toDegrees(config.getMount().getAngle()));
             }
         } else {
             armMech2d.setAngle(Math.toDegrees(armSim.getAngleRads()));

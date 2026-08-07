@@ -25,12 +25,7 @@ public class Circle {
     @Setter
     private String name;
 
-    public Circle(
-            int backgroundLines,
-            double diameterInches,
-            String name,
-            MechanismRoot2d root,
-            Mechanism2d mech) {
+    public Circle(int backgroundLines, double diameterInches, String name, MechanismRoot2d root, Mechanism2d mech) {
         this.backgroundLines = backgroundLines;
         this.diameterInches = diameterInches;
         this.name = name;
@@ -40,37 +35,22 @@ public class Circle {
         drawCircle();
     }
 
-    public Circle(
-            Mechanism2d mech,
-            int backgroundLines,
-            double diameterInches,
-            String name,
-            MechanismRoot2d root,
-            Color8Bit color) {
+    public Circle(Mechanism2d mech, int backgroundLines, double diameterInches, String name, MechanismRoot2d root,
+    Color8Bit color) {
         this(backgroundLines, diameterInches, name, root, mech);
         this.color = color;
     }
 
     public void drawCircle() {
         for (int i = 0; i < backgroundLines; i++) {
-            circleBackground[i] = root.append(
-                    new MechanismLigament2d(
-                            name + " Background " + i,
-                            Units.inchesToMeters(diameterInches) / 2.0,
-                            (360 / backgroundLines) * i,
-                            diameterInches,
-                            color));
+            circleBackground[i] = root.append(new MechanismLigament2d(name + " Background " + i,
+            Units.inchesToMeters(diameterInches) / 2.0, (360 / backgroundLines) * i, diameterInches, color));
         }
     }
 
     public void drawViz() {
-        rollerViz = rollerAxle.append(
-                new MechanismLigament2d(
-                        name + " Roller",
-                        Units.inchesToMeters(diameterInches) / 2.0,
-                        0.0,
-                        5.0,
-                        new Color8Bit(Color.kWhite)));
+        rollerViz = rollerAxle.append(new MechanismLigament2d(name + " Roller",
+        Units.inchesToMeters(diameterInches) / 2.0, 0.0, 5.0, new Color8Bit(Color.kWhite)));
     }
 
     public void setBackgroundColor(Color8Bit color) {

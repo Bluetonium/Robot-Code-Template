@@ -23,7 +23,8 @@ public class LinearConfig {
 
     // Display Config
     @Getter
-    private double angle = 90; // O is horizontal, 90 is vertical, CCW is positive
+    private double angle = 90; // O is horizontal, 90 is vertical, CCW is
+                               // positive
     @Getter
     private Color8Bit color = new Color8Bit(Color.kPurple);
     @Getter
@@ -32,11 +33,9 @@ public class LinearConfig {
     private double initialX = 0.5;
     @Getter
     private double initialY = 0;
-    @Getter
-    @Setter
+    @Getter @Setter
     private double staticRootX = 0.5;
-    @Getter
-    @Setter
+    @Getter @Setter
     private double staticRootY = 0;
     @Getter
     private double staticLength = 20;

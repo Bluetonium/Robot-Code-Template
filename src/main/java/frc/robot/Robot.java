@@ -23,16 +23,12 @@ public class Robot extends LoggedRobot {
 
   private final RobotContainer m_robotContainer;
 
-  @SuppressWarnings("unused")
-  private RobotSim m_sim;
-
   /* log and replay timestamp and joystick data */
   private final HootAutoReplay m_timeAndJoystickReplay = new HootAutoReplay().withTimestampReplay()
   .withJoystickReplay();
 
   public Robot() {
     m_robotContainer = new RobotContainer();
-    m_sim = new RobotSim();
 
     SendableRegistry.add(CommandScheduler.getInstance(), "Command Scheduler");
     SmartDashboard.putData(CommandScheduler.getInstance());

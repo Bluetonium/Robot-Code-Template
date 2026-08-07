@@ -26,52 +26,24 @@ public class LinearSim implements Mount, Mountable {
     @Getter
     private final MountType mountType = MountType.LINEAR;
 
-    public LinearSim(
-            LinearConfig config, Mechanism2d mech, TalonFXSimState linearMotorSim, String name) {
+    public LinearSim(LinearConfig config, Mechanism2d mech, TalonFXSimState linearMotorSim, String name) {
         this.config = config;
         this.linearMotorSim = linearMotorSim;
 
-        this.elevatorSim = new ElevatorSim(
-                DCMotor.getKrakenX60Foc(config.getNumMotors()),
-                config.getElevatorGearing(),
-                config.getCarriageMassKg(),
-                config.getDrumRadius(),
-                config.getMinHeight(),
-                config.getMaxHeight(),
-                true,
-                0);
+        this.elevatorSim = new ElevatorSim(DCMotor.getKrakenX60Foc(config.getNumMotors()), config.getElevatorGearing(),
+        config.getCarriageMassKg(), config.getDrumRadius(), config.getMinHeight(), config.getMaxHeight(), true, 0);
 
         staticRoot = mech.getRoot(name + " 1StaticRoot", config.getInitialX(), config.getInitialY());
-        staticMech2d = staticRoot.append(
-                new MechanismLigament2d(
-                        name + " 1Static",
-                        config.getStaticLength(),
-                        config.getAngle(),
-                        config.getLineWidth(),
-                        new Color8Bit(Color.kOrange)));
+        staticMech2d = staticRoot.append(new MechanismLigament2d(name + " 1Static", config.getStaticLength(),
+        config.getAngle(), config.getLineWidth(), new Color8Bit(Color.kOrange)));
 
         root = mech.getRoot(name + " Root", config.getInitialX(), config.getInitialY());
-        m_elevatorMech2d = root.append(
-                new MechanismLigament2d(
-                        name,
-                        config.getMovingLength(),
-                        config.getAngle(),
-                        config.getLineWidth(),
-                        new Color8Bit(Color.kBlack)));
+        m_elevatorMech2d = root.append(new MechanismLigament2d(name, config.getMovingLength(), config.getAngle(),
+        config.getLineWidth(), new Color8Bit(Color.kBlack)));
     }
 
     public MechanismLigament2d getElevatorMech2d() {
         return m_elevatorMech2d;
-    }
-
-    private double getRotationPerSec() {
-        return (elevatorSim.getVelocityMetersPerSecond() / (2 * Math.PI * config.getDrumRadius()))
-                * config.getElevatorGearing();
-    }
-
-    private double getRotations() {
-        return (elevatorSim.getPositionMeters() / (2 * Math.PI * config.getDrumRadius()))
-                * config.getElevatorGearing();
     }
 
     public void simulationPeriodic() {
@@ -89,9 +61,7 @@ public class LinearSim implements Mount, Mountable {
             if (config.getMount().getMountType() == MountType.ARM) {
                 angle = config.getAngle() + Math.toDegrees(config.getMount().getAngle());
             } else if (config.getMount().getMountType() == MountType.LINEAR) {
-                angle = config.getAngle()
-                        + Math.toDegrees(
-                                config.getMount().getAngle() - config.getInitMountAngle());
+                angle = config.getAngle() + Math.toDegrees(config.getMount().getAngle() - config.getInitMountAngle());
             } else {
                 angle = config.getAngle();
             }
@@ -100,19 +70,15 @@ public class LinearSim implements Mount, Mountable {
             config.setStaticRootY(getUpdatedY(config));
 
             staticRoot.setPosition(config.getStaticRootX(), config.getStaticRootY());
-            root.setPosition(
-                    config.getStaticRootX() + (displacement * Math.cos(Math.toRadians(angle))),
-                    config.getStaticRootY() + (displacement * Math.sin(Math.toRadians(angle))));
+            root.setPosition(config.getStaticRootX() + (displacement * Math.cos(Math.toRadians(angle))),
+            config.getStaticRootY() + (displacement * Math.sin(Math.toRadians(angle))));
 
             staticMech2d.setAngle(angle);
             m_elevatorMech2d.setAngle(angle);
 
         } else {
-            root.setPosition(
-                    config.getInitialX()
-                            + (displacement * Math.cos(Math.toRadians(config.getAngle()))),
-                    config.getInitialY()
-                            + (displacement * Math.sin(Math.toRadians(config.getAngle()))));
+            root.setPosition(config.getInitialX() + (displacement * Math.cos(Math.toRadians(config.getAngle()))),
+            config.getInitialY() + (displacement * Math.sin(Math.toRadians(config.getAngle()))));
         }
     }
 
@@ -124,15 +90,13 @@ public class LinearSim implements Mount, Mountable {
         } else if (config.getMount().getMountType() == MountType.ARM) {
             angle = config.getAngle() + Math.toDegrees(config.getMount().getAngle());
         } else if (config.getMount().getMountType() == MountType.LINEAR) {
-            angle = config.getAngle()
-                    + Math.toDegrees(
-                            config.getMount().getAngle() - config.getInitMountAngle());
+            angle = config.getAngle() + Math.toDegrees(config.getMount().getAngle() - config.getInitMountAngle());
         } else {
             angle = config.getAngle();
         }
 
         return elevatorSim.getPositionMeters() * Math.cos(Math.toRadians(angle))
-                + (config.getStaticRootX() - config.getInitialX());
+        + (config.getStaticRootX() - config.getInitialX());
     }
 
     public double getDisplacementY() {
@@ -143,15 +107,13 @@ public class LinearSim implements Mount, Mountable {
         } else if (config.getMount().getMountType() == MountType.ARM) {
             angle = config.getAngle() + Math.toDegrees(config.getMount().getAngle());
         } else if (config.getMount().getMountType() == MountType.LINEAR) {
-            angle = config.getAngle()
-                    + Math.toDegrees(
-                            config.getMount().getAngle() - config.getInitMountAngle());
+            angle = config.getAngle() + Math.toDegrees(config.getMount().getAngle() - config.getInitMountAngle());
         } else {
             angle = config.getAngle();
         }
 
         return elevatorSim.getPositionMeters() * Math.sin(Math.toRadians(angle))
-                + (config.getStaticRootY() - config.getInitialY());
+        + (config.getStaticRootY() - config.getInitialY());
     }
 
     public double getAngle() {
@@ -168,5 +130,14 @@ public class LinearSim implements Mount, Mountable {
 
     public double getMountY() {
         return config.getStaticRootY();
+    }
+
+    private double getRotationPerSec() {
+        return (elevatorSim.getVelocityMetersPerSecond() / (2 * Math.PI * config.getDrumRadius()))
+        * config.getElevatorGearing();
+    }
+
+    private double getRotations() {
+        return (elevatorSim.getPositionMeters() / (2 * Math.PI * config.getDrumRadius())) * config.getElevatorGearing();
     }
 }

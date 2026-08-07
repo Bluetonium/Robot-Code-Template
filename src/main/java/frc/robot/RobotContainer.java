@@ -41,6 +41,8 @@ public class RobotContainer {
 
     setupSubsystems();
 
+    RobotSim.SetupSim();
+
     // autoChooser = AutoBuilder.buildAutoChooser();
     // currentAuto = autoChooser.getSelected();
     // autoChooser.onChange((command) -> currentAuto = command);
