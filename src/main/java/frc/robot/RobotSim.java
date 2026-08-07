@@ -7,14 +7,14 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 
 public class RobotSim {
-    public static final double height = 120;
-    public static final double width = 60;
-    public static final Mechanism2d rightView = new Mechanism2d(Units.inchesToMeters(width) * 2,
-    Units.inchesToMeters(height));
+    public static final double m_height = 120;
+    public static final double m_width = 60;
+    public static final Mechanism2d m_rightView = new Mechanism2d(Units.inchesToMeters(m_width) * 2,
+    Units.inchesToMeters(m_height));
 
     public RobotSim() {
 
-        SmartDashboard.putData("RightView", rightView);
-        rightView.setBackgroundColor(new Color8Bit(Color.kLightGray));
+        SmartDashboard.putData("RightView", m_rightView);
+        m_rightView.setBackgroundColor(new Color8Bit(Color.kLightGray));
     }
 }

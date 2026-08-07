@@ -7,38 +7,36 @@ import frc.robot.subsystems.controller.Controller;
 
 public class RobotStates {
   // states
-  public static Trigger teleop;
-
-  public static Trigger autoMode;
-
-  public static Trigger testMode;
-  public static Trigger disabled;
-  public static Trigger dsAttached;
-  public static Trigger endGame;
-  public static Trigger Estopped;
-  public static Trigger isRed;
+  public static Trigger m_teleop;
+  public static Trigger m_autoMode;
+  public static Trigger m_testMode;
+  public static Trigger m_disabled;
+  public static Trigger m_dsAttached;
+  public static Trigger m_endGame;
+  public static Trigger m_Estopped;
+  public static Trigger m_isRed;
   // chassis
-  public static Trigger wheelXPosition;
-  public static Trigger zeroHeading;
+  public static Trigger m_wheelXPosition;
+  public static Trigger m_zeroHeading;
 
-  public static Trigger slowMode;
-  public static Trigger pointWheel;
+  public static Trigger m_slowMode;
+  public static Trigger m_pointWheel;
 
   public static void setupStates() {
-    teleop = new Trigger(DriverStation::isTeleopEnabled);
-    autoMode = new Trigger(RobotState::isAutonomous);
-    testMode = new Trigger(RobotState::isTest);
-    disabled = new Trigger(RobotState::isDisabled);
-    dsAttached = new Trigger(DriverStation::isDSAttached);
-    Estopped = new Trigger(DriverStation::isEStopped);
-    isRed = new Trigger(Robot::isRed);
+    m_teleop = new Trigger(DriverStation::isTeleopEnabled);
+    m_autoMode = new Trigger(RobotState::isAutonomous);
+    m_testMode = new Trigger(RobotState::isTest);
+    m_disabled = new Trigger(RobotState::isDisabled);
+    m_dsAttached = new Trigger(DriverStation::isDSAttached);
+    m_Estopped = new Trigger(DriverStation::isEStopped);
+    m_isRed = new Trigger(Robot::isRed);
 
-    endGame = teleop.and(() -> DriverStation.getMatchTime() < 20);
+    m_endGame = m_teleop.and(() -> DriverStation.getMatchTime() < 20);
 
     // chassis
-    wheelXPosition = Controller.wheelsXPosition;
-    zeroHeading = Controller.zeroHeading;
-    pointWheel = Controller.pointWheels;
+    m_wheelXPosition = Controller.m_wheelsXPosition;
+    m_zeroHeading = Controller.m_zeroHeading;
+    m_pointWheel = Controller.m_pointWheels;
   }
 
   private RobotStates() {

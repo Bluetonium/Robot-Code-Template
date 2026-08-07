@@ -19,20 +19,23 @@ public class SubsystemTesting {
     public static void setupTests() {
         SmartDashboard.putData("Test Chooser", testSelector);
 
-        Controller.runTest.whileTrue(Commands.deferredProxy(() -> {
+        Controller.m_runTest.whileTrue(Commands.deferredProxy(() -> {
             return testSelector.getSelected();
         }));
     }
 
     /**
-     * Registers a test with the given name and command
+     * Registers a test with the given name and command. The name will be
+     * prefixed with the subsystems it uses. Example: A command named "auto
+     * align" using drivetrain and vision would be [drivetrain,vision].auto
+     * align
      * 
      * @param testCommand the command to run for the test
-     * @param name        the name of the command
+     * @param name the name of the command
      */
     public static void registerTest(Command testCommand, String name) {
         String requirements = testCommand.getRequirements().stream().map((s) -> s.getName()).sorted()
-                .collect(Collectors.joining(","));
+        .collect(Collectors.joining(","));
 
         String fullName = String.format("[%s].%s", requirements, name);
         if (registeredTests.contains(fullName)) {
@@ -63,9 +66,9 @@ public class SubsystemTesting {
         SubsystemTesting.registerTest(routine.dynamic(Direction.kReverse), String.format("%s.dynamic.reverse", name));
 
         SubsystemTesting.registerTest(routine.quasistatic(Direction.kForward),
-                String.format("%s.quasistatic.forward", name));
+        String.format("%s.quasistatic.forward", name));
 
         SubsystemTesting.registerTest(routine.quasistatic(Direction.kReverse),
-                String.format("%s.quasistatic.reverse", name));
+        String.format("%s.quasistatic.reverse", name));
     }
 }

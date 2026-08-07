@@ -9,56 +9,56 @@ import frc.robot.subsystems.controller.ControllerConstants.CONTROLLABLE_SYSTEMS;
 public class Controller {
   // Control axis
   // chassis
-  public static DoubleSupplier chassisControlTranslation = null;
-  public static DoubleSupplier chassisControlStrafe = null;
-  public static DoubleSupplier chassisControlRotation = null;
+  public static DoubleSupplier m_chassisControlTranslation = null;
+  public static DoubleSupplier m_chassisControlStrafe = null;
+  public static DoubleSupplier m_chassisControlRotation = null;
 
   // Triggers
   // Chassis
-  public static Trigger wheelsXPosition = null;
-  public static Trigger pointWheels = null;
-  public static Trigger zeroHeading = null;
+  public static Trigger m_wheelsXPosition = null;
+  public static Trigger m_pointWheels = null;
+  public static Trigger m_zeroHeading = null;
 
   // Tests
-  public static Trigger runTest = null;
+  public static Trigger m_runTest = null;
 
   // Instance variables
-  private final CommandXboxController controller;
+  private final CommandXboxController m_controller;
 
   public Controller(int port) {
-    controller = new CommandXboxController(port);
+    m_controller = new CommandXboxController(port);
   }
 
   public Controller withControl(CONTROLLABLE_SYSTEMS control) {
     switch (control) {
-      case CHASSIS:
-        chassisControlTranslation = this::translate;
+    case kChassis:
+      m_chassisControlTranslation = this::translate;
 
-        chassisControlStrafe = () -> controller.getRawAxis(ControllerConstants.ChassisControls.STRAFE);
-        chassisControlRotation = () -> controller.getRawAxis(ControllerConstants.ChassisControls.ROTATION);
+      m_chassisControlStrafe = () -> m_controller.getRawAxis(ControllerConstants.ChassisControls.kStrafe);
+      m_chassisControlRotation = () -> m_controller.getRawAxis(ControllerConstants.ChassisControls.kRotation);
 
-        wheelsXPosition = controller.button(ControllerConstants.ChassisControls.WHEEL_X_POSITION);
-        pointWheels = controller.button(ControllerConstants.ChassisControls.POINT_WHEELS);
-        zeroHeading = controller.button(ControllerConstants.ChassisControls.ZERO_HEADING);
-        break;
+      m_wheelsXPosition = m_controller.button(ControllerConstants.ChassisControls.kWheelXPosition);
+      m_pointWheels = m_controller.button(ControllerConstants.ChassisControls.kPointWheels);
+      m_zeroHeading = m_controller.button(ControllerConstants.ChassisControls.kZeroHeading);
+      break;
 
-      case TESTS:
-        runTest = controller.button(ControllerConstants.TestControls.RUN_TEST);
-        break;
+    case kTests:
+      m_runTest = m_controller.button(ControllerConstants.TestControls.kRunTest);
+      break;
 
-      default:
-        throw new RuntimeException("No setup configured for control " + control.name());
+    default:
+      throw new RuntimeException("No setup configured for control " + control.name());
     }
 
     return this;
   }
 
   public boolean isDisconnected() {
-    return !controller.isConnected();
+    return !m_controller.isConnected();
   }
 
   private double translate() {
-    return controller.getRawAxis(ControllerConstants.ChassisControls.TRANSLATION);
+    return m_controller.getRawAxis(ControllerConstants.ChassisControls.kTranslation);
   }
 }
 // hello world

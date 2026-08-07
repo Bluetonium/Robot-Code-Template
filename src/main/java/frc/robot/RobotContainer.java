@@ -16,19 +16,19 @@ import lombok.Getter;
 public class RobotContainer {
   // Subsystems
   @Getter
-  private static CommandSwerveDrivetrain drivetrain = null;
+  private static CommandSwerveDrivetrain m_drivetrain = null;
 
   @Getter
-  private static Controller driver1 = null;
+  private static Controller m_controller1 = null;
 
   @Getter
-  private static Controller driver2 = null;
+  private static Controller m_controller2 = null;
 
   @Getter
-  private static Controller testingController = null;// used for running the
+  private static Controller m_testingController = null;// used for running the
   // subsystem tests
   @Getter
-  private static Vision vision = null;
+  private static Vision m_vision = null;
 
   public RobotContainer() {
     initializeSubsystems();
@@ -39,18 +39,18 @@ public class RobotContainer {
   }
 
   private void initializeSubsystems() {
-    driver1 = new Controller(0).withControl(CONTROLLABLE_SYSTEMS.CHASSIS);
-    driver2 = new Controller(1);
-    testingController = new Controller(2).withControl(CONTROLLABLE_SYSTEMS.TESTS);
+    m_controller1 = new Controller(0).withControl(CONTROLLABLE_SYSTEMS.kChassis);
+    m_controller2 = new Controller(1);
+    m_testingController = new Controller(2).withControl(CONTROLLABLE_SYSTEMS.kTests);
 
-    drivetrain = TunerConstants.createDrivetrain();
+    m_drivetrain = TunerConstants.createDrivetrain();
 
-    vision = new Vision();
+    m_vision = new Vision();
   }
 
   private void setupSubsystems() {
     SubsystemTesting.setupTests();
-    drivetrain.setup();
-    vision.setup();
+    m_drivetrain.setup();
+    m_vision.setup();
   }
 }
