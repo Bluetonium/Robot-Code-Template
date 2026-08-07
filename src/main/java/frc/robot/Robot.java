@@ -43,7 +43,7 @@ public class Robot extends LoggedRobot {
 
   /* log and replay timestamp and joystick data */
   private final HootAutoReplay m_timeAndJoystickReplay = new HootAutoReplay().withTimestampReplay()
-      .withJoystickReplay();
+  .withJoystickReplay();
 
   public Robot() {
     m_robotContainer = new RobotContainer();

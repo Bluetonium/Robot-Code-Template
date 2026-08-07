@@ -35,7 +35,7 @@ public class RobotContainer {
     RobotStates.setupStates();
 
     setupSubsystems();
-    Auton.setupAutonChooser();
+    Auton.initializeAuton();
   }
 
   private void initializeSubsystems() {
