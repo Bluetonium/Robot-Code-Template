@@ -6,9 +6,8 @@ public class VisionConstants {
      * name configured on the limelight LIMELIGHTS
      */
     public enum LIMELIGHTS {
-        EXAMPLE("example", 1, 1, 1, 0, 0, 0); // TODO remove this and fill in
-                                              // with limelight names
-        // EXAMPLE : m_frontLimelight("front",1,0,0.5,0,0,0,0)
+        // EXAMPLE("example", 1, 1, 1, 0, 0, 0);
+        ;
 
         public final String m_name;
         public final double m_x;
