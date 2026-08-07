@@ -2,35 +2,36 @@ package frc.robot.subsystems.vision;
 
 public class VisionConstants {
     /**
-     * This is where all your limelights should go. The name should match the name
-     * configured on the limelight
-     * LIMELIGHTS
+     * This is where all your limelights should go. The name should match the
+     * name configured on the limelight LIMELIGHTS
      */
     public enum LIMELIGHTS {
-        EXAMPLE("example", 1, 1, 1, 0, 0, 0); // TODO remove this and fill in with limelight names
-        // EXAMPLE : FRONT_LIMELIGHT("front",1,0,0.5,0,0,0,0)
+        EXAMPLE("example", 1, 1, 1, 0, 0, 0); // TODO remove this and fill in
+                                              // with limelight names
+        // EXAMPLE : m_frontLimelight("front",1,0,0.5,0,0,0,0)
 
-        public final String name;
-        public final double x;
-        public final double y;
-        public final double z;
-        public final double pitch;
-        public final double yaw;
-        public final double roll;
+        public final String m_name;
+        public final double m_x;
+        public final double m_y;
+        public final double m_z;
+        public final double m_pitch;
+        public final double m_yaw;
+        public final double m_roll;
 
-        public final boolean localization;
+        public final boolean m_localization;
 
         private LIMELIGHTS(String name, double x, double y, double z, double pitch, double yaw, double roll,
-                boolean localization) {
-            this.name = name;
-            this.x = x;
-            this.y = y;
-            this.z = z;
+        boolean localization) {
+            m_name = name;
+            m_x = x;
+            m_y = y;
+            m_z = z;
 
-            this.pitch = pitch;
-            this.yaw = yaw;
-            this.roll = roll;
-            this.localization = localization; // has a position, can be used for localization
+            m_pitch = pitch;
+            m_yaw = yaw;
+            m_roll = roll;
+            m_localization = localization; // has a position, can be used for
+                                           // localization
         }
 
         private LIMELIGHTS(String name, double x, double y, double z, double pitch, double yaw, double roll) {
@@ -40,16 +41,15 @@ public class VisionConstants {
 
     /***
      * All the pipelines that are on the limelights. it is assumed that all
-     * limelights have the same set of pipelines on them.
-     * LIMELIGHT_PIPELINES
+     * limelights have the same set of pipelines on them. LIMELIGHT_PIPELINES
      */
     public enum LIMELIGHT_PIPELINES {
-        LOCALIZATION(0);
+        m_localization(0);
 
-        public final int pipeline;
+        public final int m_pipeline;
 
         private LIMELIGHT_PIPELINES(int pipeline) {
-            this.pipeline = pipeline;
+            this.m_pipeline = pipeline;
         }
     }
 
