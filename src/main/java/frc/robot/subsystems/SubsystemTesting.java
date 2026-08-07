@@ -25,7 +25,10 @@ public class SubsystemTesting {
     }
 
     /**
-     * Registers a test with the given name and command
+     * Registers a test with the given name and command. The name will be
+     * prefixed with the subsystems it uses. Example: A command named "auto
+     * align" using drivetrain and vision would be [drivetrain,vision].auto
+     * align
      * 
      * @param testCommand the command to run for the test
      * @param name the name of the command
