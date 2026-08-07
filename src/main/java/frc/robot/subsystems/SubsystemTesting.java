@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.subsystems.drivers.Drivers;
+import frc.robot.subsystems.controller.Controller;
 
 public class SubsystemTesting {
     private static SendableChooser<Command> testSelector = new SendableChooser<>();
@@ -19,13 +19,16 @@ public class SubsystemTesting {
     public static void setupTests() {
         SmartDashboard.putData("Test Chooser", testSelector);
 
-        Drivers.runTest.whileTrue(Commands.deferredProxy(() -> {
+        Controller.m_runTest.whileTrue(Commands.deferredProxy(() -> {
             return testSelector.getSelected();
         }));
     }
 
     /**
-     * Registers a test with the given name and command
+     * Registers a test with the given name and command. The name will be
+     * prefixed with the subsystems it uses. Example: A command named "auto
+     * align" using drivetrain and vision would be [drivetrain,vision].auto
+     * align
      * 
      * @param testCommand the command to run for the test
      * @param name the name of the command

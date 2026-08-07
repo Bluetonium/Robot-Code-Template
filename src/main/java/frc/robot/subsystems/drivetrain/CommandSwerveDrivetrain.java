@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
+import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -28,6 +29,8 @@ import frc.Bluetonium.IBluetoniumSubsystem;
 import frc.robot.Telemetry;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.subsystems.SubsystemTesting;
+import frc.robot.subsystems.controller.Controller;
+import frc.robot.subsystems.controller.ControllerConstants;
 
 public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements IBluetoniumSubsystem {
   private static final double kSimLoopPeriod = 0.004; // 4 ms
@@ -36,7 +39,14 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements IB
   /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
   private static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
 
+  private static final SwerveRequest.FieldCentric m_fieldCentricDrive = new SwerveRequest.FieldCentric()
+  .withDeadband(DriveTrainConstants.kMaxSpeed * ControllerConstants.ChassisControls.kTranslationDeadband)
+  .withRotationalDeadband(DriveTrainConstants.kMaxAngularSpeed * ControllerConstants.ChassisControls.kRotationDeadband)
+  .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+  private static final SwerveRequest.PointWheelsAt m_point = new SwerveRequest.PointWheelsAt();
+
   private Notifier m_simNotifier = null;
+
   private double m_lastSimTime;
 
   /* Keep track if we've ever applied the operator perspective before or not */
@@ -47,7 +57,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements IB
   private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
   private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
 
-  private final Telemetry m_logger = new Telemetry(DriveTrainConstants.MAX_SPEED);
+  private final Telemetry m_logger = new Telemetry(DriveTrainConstants.kMaxSpeed);
 
   /*
    * SysId routine for characterizing translation. This is used to find PID
@@ -157,6 +167,20 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements IB
     if (Utils.isSimulation()) {
       startSimThread();
     }
+  }
+
+  public Command teleopDrive() {
+    return applyRequest(() -> m_fieldCentricDrive
+    .withVelocityX(-Controller.m_chassisControlTranslation.getAsDouble() * DriveTrainConstants.kMaxSpeed)
+    .withVelocityY(-Controller.m_chassisControlStrafe.getAsDouble() * DriveTrainConstants.kMaxSpeed)
+    .withRotationalRate(-Controller.m_chassisControlRotation.getAsDouble() * DriveTrainConstants.kMaxAngularSpeed))
+    .withName("Chassis.TeleopDrive");
+  }
+
+  public Command pointWheels() {
+    return applyRequest(
+    () -> m_point.withModuleDirection(new Rotation2d(-Controller.m_chassisControlTranslation.getAsDouble(),
+    -Controller.m_chassisControlStrafe.getAsDouble()))).withName("Chassis.PointWheels");
   }
 
   /**

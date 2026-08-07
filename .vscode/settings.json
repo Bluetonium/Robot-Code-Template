@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
+    "auton",
     "Bluetonium",
     "CTRE",
     "ctxt",
@@ -8,6 +9,7 @@
     "feedforwards",
     "gradlew",
     "holonomic",
+    "Kitbot",
     "networktables",
     "pathplanner",
     "Quasistatic",
