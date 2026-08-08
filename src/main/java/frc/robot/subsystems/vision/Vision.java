@@ -73,7 +73,7 @@ public class Vision extends SubsystemBase {
     }
 
     public void setup() {
-        m_drivetrain = RobotContainer.getM_drivetrain();
+        m_drivetrain = RobotContainer.getDrivetrain();
         m_gyro = m_drivetrain.getPigeon2();
 
         VisionStates.setStates();

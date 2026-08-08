@@ -33,11 +33,11 @@ public interface Mountable {
     double initMountY, double initMountAngle, double mountX, double mountY, double displacementX, double displacementY,
     double mountAngle) {
         switch (mountType) {
-        case LINEAR:
+        case kLinear:
             return getXWithAngle(getDistance(initialX, initialY, initMountX, initMountY),
             mountAngle + getAngleOffset(initialX, initialY, initMountX, initMountY, initMountAngle),
             initMountX + displacementX);
-        case ARM:
+        case kArm:
             return getXWithAngle(getDistance(initialX, initialY, initMountX, initMountY),
             mountAngle + getAngleOffset(initialX, initialY, initMountX, initMountY, initMountAngle), mountX);
         default:
@@ -49,11 +49,11 @@ public interface Mountable {
     double initMountY, double initMountAngle, double mountX, double mountY, double displacementX, double displacementY,
     double mountAngle) {
         switch (mountType) {
-        case LINEAR:
+        case kLinear:
             return getYWithAngle(getDistance(initialX, initialY, initMountX, initMountY),
             mountAngle + getAngleOffset(initialX, initialY, initMountX, initMountY, initMountAngle),
             initMountY + displacementY);
-        case ARM:
+        case kArm:
             return getYWithAngle(getDistance(initialX, initialY, initMountX, initMountY),
             mountAngle + getAngleOffset(initialX, initialY, initMountX, initMountY, initMountAngle), mountY);
         default:

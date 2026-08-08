@@ -13,8 +13,6 @@ import com.ctre.phoenix6.HootAutoReplay;
 import com.ctre.phoenix6.SignalLogger;
 
 import edu.wpi.first.util.sendable.SendableRegistry;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,17 +23,10 @@ import frc.utils.Elastic.Notification;
 import frc.utils.Elastic.NotificationLevel;
 
 public class Robot extends LoggedRobot {
-  public static boolean isRed() {
-
-    var alliance = DriverStation.getAlliance();
-    if (alliance.isPresent())
-      return alliance.get().equals(Alliance.Red);
-
-    return false;
-  }
 
   private Command m_autonomousCommand;
 
+  @SuppressWarnings("unused")
   private final RobotContainer m_robotContainer;
 
   /* log and replay timestamp and joystick data */
