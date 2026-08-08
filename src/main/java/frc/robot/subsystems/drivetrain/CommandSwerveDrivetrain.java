@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.Robot;
+import frc.robot.RobotStates;
 import frc.robot.Telemetry;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.subsystems.SubsystemTesting;
@@ -244,18 +244,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     try {
       RobotConfig config = RobotConfig.fromGUISettings();
       // Configure AutoBuilder last
-      AutoBuilder.configure(
-          this::getPose,
-          this::resetPose,
-          this::getRobotRelativeSpeeds,
-          (speeds, feedforwards) -> driveRobotRelative(speeds),
-          new PPHolonomicDriveController(
-              new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-              new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
-          ),
-          config,
-          Robot::isRed,
-          this);
+      AutoBuilder.configure(this::getPose, this::resetPose, this::getRobotRelativeSpeeds,
+      (speeds, feedforwards) -> driveRobotRelative(speeds),
+      new PPHolonomicDriveController(new PIDConstants(5.0, 0.0, 0.0), // Translation
+                                                                      // PID
+                                                                      // constants
+      new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+      ), config, RobotStates::isRed, this);
     } catch (Exception e) {
       DriverStation.reportError(e.getMessage(), false);
       DriverStation.reportError("Configure the path planner configs!", e.getStackTrace());

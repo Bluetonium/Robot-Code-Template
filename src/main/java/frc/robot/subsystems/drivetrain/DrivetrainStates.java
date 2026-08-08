@@ -13,7 +13,7 @@ public class DrivetrainStates {
         private static final SwerveRequest m_idle = new SwerveRequest.Idle();
 
         public static void setStates() {
-                CommandSwerveDrivetrain swerve = RobotContainer.getM_drivetrain();
+                CommandSwerveDrivetrain swerve = RobotContainer.getDrivetrain();
 
                 RobotStates.m_wheelXPosition
                 .whileTrue(swerve.applyRequest(() -> m_brake).withName("Chassis.WheelXPosition"));
