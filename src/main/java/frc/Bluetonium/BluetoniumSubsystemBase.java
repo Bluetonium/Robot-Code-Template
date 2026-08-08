@@ -7,19 +7,19 @@ import lombok.Getter;
 
 public abstract class BluetoniumSubsystemBase extends SubsystemBase implements IBluetoniumSubsystem {
     @Getter
-    protected static final HashSet<IBluetoniumSubsystem> subsystems = new HashSet<>();
+    protected static final HashSet<IBluetoniumSubsystem> m_subsystems = new HashSet<>();
 
     public static void registerBluetoniumSubsystem(final IBluetoniumSubsystem subsystem) {
-        subsystems.add(subsystem);
+        m_subsystems.add(subsystem);
     }
 
     public BluetoniumSubsystemBase() {
         super();
-        subsystems.add(this);
+        m_subsystems.add(this);
     }
 
     public BluetoniumSubsystemBase(final String name) {
         super(name);
-        subsystems.add(this);
+        m_subsystems.add(this);
     }
 }
