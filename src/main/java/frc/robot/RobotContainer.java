@@ -4,8 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.auton.Auton;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.SubsystemTesting;
 import frc.robot.subsystems.controller.Controller;
@@ -31,26 +30,12 @@ public class RobotContainer {
   @Getter
   private static Vision m_vision = null;
 
-  private static Command m_currentAuto;
-  // audio
-  private SendableChooser<Command> m_autoChooser; // TODO implement pathplanner
-
   public RobotContainer() {
     initializeSubsystems();
     RobotStates.setupStates();
-
     setupSubsystems();
-
     RobotSim.SetupSim();
-
-    // autoChooser = AutoBuilder.buildAutoChooser();
-    // currentAuto = autoChooser.getSelected();
-    // autoChooser.onChange((command) -> currentAuto = command);
-    // SmartDashboard.putData("Autonomous", autoChooser);
-  }
-
-  public Command getAutonomousCommand() {
-    return m_currentAuto;
+    Auton.initializeAuton();
   }
 
   private void initializeSubsystems() {
