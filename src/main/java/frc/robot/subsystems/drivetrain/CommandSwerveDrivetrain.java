@@ -11,6 +11,10 @@ import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -26,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.Bluetonium.BluetoniumSubsystemBase;
 import frc.Bluetonium.IBluetoniumSubsystem;
+import frc.robot.Robot;
 import frc.robot.Telemetry;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.subsystems.SubsystemTesting;
@@ -239,7 +244,21 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements IB
   }
 
   private void setupPathPlanner() {
-    // TODO set this up
+    try {
+      RobotConfig config = RobotConfig.fromGUISettings();
+      // Configure AutoBuilder last
+      AutoBuilder.configure(this::getPose, this::resetPose, this::getRobotRelativeSpeeds,
+      (speeds, feedforwards) -> driveRobotRelative(speeds),
+      new PPHolonomicDriveController(new PIDConstants(5.0, 0.0, 0.0), // Translation
+                                                                      // PID
+                                                                      // constants
+      new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+      ), config, Robot::isRed, this);
+    } catch (Exception e) {
+      DriverStation.reportError(e.getMessage(), false);
+      DriverStation.reportError("Configure the path planner configs!", e.getStackTrace());
+    }
+
   }
 
   private void startSimThread() {
