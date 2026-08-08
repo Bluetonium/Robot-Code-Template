@@ -34,8 +34,8 @@ public class RobotContainer {
   public RobotContainer() {
     initializeSubsystems();
     RobotStates.setupStates();
-
     setupSubsystems();
+    RobotSim.SetupSim();
     Auton.initializeAuton();
   }
 

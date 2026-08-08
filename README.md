@@ -35,6 +35,23 @@ Allows the robot to drive around. Uses a Holonomic (Swerve) style drive train. M
 ### Vision
 Controls all the limelights on the robots. By default all not in use limelights will be used for localization (unless marked not for localization). The subsystem defines functions that should be used for switching the pipelines for limelights. The default command for the vision subsystem sets all limelights as unused and switches to localization.
 
+## Simulating
+The simulation util is mostly borrowed from the team 3847 Spectrum. The simulation uses 2D mechanisms to verify that things operate as they should. By default we only have a right view for simulation. This is a 2d window that will show the right side of the robot. Others views can be made if desired.
+
+An example of simulation is bellow for a roller based intake
+```java
+private final double k_WheelDiameterInches = 4;
+
+private RollerConfig m_config = new RollerConfig(k_WheelDiameterInches).setPosition(1.341, .35);
+private RollerSim m_sim = new RollerSim(m_config,RobotSim.rightView, motor.getSimState(), "Outtake");
+
+@Override
+public void simulationPeriodic() {
+    sim.simulationPeriodic();
+}
+
+```
+
 ## Authors
 * Henry Kirk - henrykirk2007@gmail.com
 
