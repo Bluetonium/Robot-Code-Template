@@ -27,8 +27,9 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.Bluetonium.BluetoniumSubsystemBase;
+import frc.Bluetonium.IBluetoniumSubsystem;
 import frc.robot.RobotStates;
 import frc.robot.Telemetry;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
@@ -36,7 +37,7 @@ import frc.robot.subsystems.SubsystemTesting;
 import frc.robot.subsystems.controller.Controller;
 import frc.robot.subsystems.controller.ControllerConstants;
 
-public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Subsystem {
+public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements IBluetoniumSubsystem {
   private static final double kSimLoopPeriod = 0.004; // 4 ms
   /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
   private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
@@ -121,7 +122,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     setupPathPlanner();
     registerTelemetry(m_logger::telemeterize);
-    registerTests();
+    BluetoniumSubsystemBase.registerBluetoniumSubsystem(this);
   }
 
   /**
@@ -230,11 +231,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     setControl(new SwerveRequest.ApplyRobotSpeeds().withSpeeds(speeds));
   }
 
-  public void setup() {
+  @Override
+  public void setupStates() {
     DrivetrainStates.setStates();
   }
 
-  private void registerTests() {
+  @Override
+  public void setupTests() {
     SubsystemTesting.registerSysIdTests(m_sysIdRoutineRotation, "Rotation");
     SubsystemTesting.registerSysIdTests(m_sysIdRoutineSteer, "Steer");
     SubsystemTesting.registerSysIdTests(m_sysIdRoutineTranslation, "Translation");

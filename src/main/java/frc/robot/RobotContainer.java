@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.Bluetonium.BluetoniumSubsystemBase;
 import frc.robot.auton.Auton;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.SubsystemTesting;
@@ -50,7 +51,10 @@ public class RobotContainer {
 
   private void setupSubsystems() {
     SubsystemTesting.setupTests();
-    m_drivetrain.setup();
-    m_vision.setup();
+
+    BluetoniumSubsystemBase.getSubsystems().forEach((b) -> {
+      b.setupStates();
+      b.setupTests();
+    });
   }
 }
