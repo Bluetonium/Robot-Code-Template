@@ -92,8 +92,8 @@ public class Vision extends SubsystemBase {
     }
 
     private void setLimelightPos(LIMELIGHTS limelight) {
-        LimelightHelpers.setCameraPose_RobotSpace(limelight.m_name, limelight.m_x, limelight.m_y, limelight.m_z,
-        limelight.m_roll, limelight.m_pitch, limelight.m_yaw);
+        LimelightHelpers.setCameraPose_RobotSpace(limelight.m_name, limelight.m_forward, limelight.m_right,
+        limelight.m_up, limelight.m_roll, limelight.m_pitch, limelight.m_yaw);
 
     }
 

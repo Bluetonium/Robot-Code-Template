@@ -10,21 +10,21 @@ public class VisionConstants {
         ;
 
         public final String m_name;
-        public final double m_x;
-        public final double m_y;
-        public final double m_z;
+        public final double m_forward;// units are in meters
+        public final double m_right;
+        public final double m_up;
         public final double m_pitch;
         public final double m_yaw;
         public final double m_roll;
 
         public final boolean m_localization;
 
-        private LIMELIGHTS(String name, double x, double y, double z, double pitch, double yaw, double roll,
+        private LIMELIGHTS(String name, double forward, double right, double up, double pitch, double yaw, double roll,
         boolean localization) {
             m_name = name;
-            m_x = x;
-            m_y = y;
-            m_z = z;
+            m_forward = forward;
+            m_right = right;
+            m_up = up;
 
             m_pitch = pitch;
             m_yaw = yaw;
