@@ -36,6 +36,9 @@ import edu.wpi.first.units.measure.MomentOfInertia;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.subsystems.drivetrain.CommandSwerveDrivetrain;
+import frc.utils.Elastic;
+import frc.utils.Elastic.Notification;
+import frc.utils.Elastic.NotificationLevel;
 
 public class TunerConstants {
         // TODO generate this file
@@ -263,8 +266,8 @@ public class TunerConstants {
          */
         public static CommandSwerveDrivetrain createDrivetrain() {
                 if (!RobotBase.isSimulation())
-                        throw new RuntimeException("Generate this file with CTRE's phoenix tuner. This is a temp file");
-
-                return new CommandSwerveDrivetrain(DrivetrainConstants, FrontLeft, FrontRight, BackLeft, BackRight);
+                        Elastic.sendNotification(new Notification(NotificationLevel.ERROR, "CONFIGURE SWERVE",
+                        "Swerve needs to be configured, the current tuner constants is only temporary"));
+                throw new RuntimeException("Generate this file with CTRE's phoenix tuner. This is a temp file");
         }
 }
