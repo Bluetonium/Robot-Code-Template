@@ -4,50 +4,57 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj2.command.Command;
+import frc.Bluetonium.BluetoniumSubsystemBase;
+import frc.robot.auton.Auton;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.drivers.DriverConstants.CONTROLLABLE_SYSTEMS;
-import frc.robot.subsystems.drivers.Drivers;
+import frc.robot.subsystems.SubsystemTesting;
+import frc.robot.subsystems.controller.Controller;
+import frc.robot.subsystems.controller.ControllerConstants.CONTROLLABLE_SYSTEMS;
 import frc.robot.subsystems.drivetrain.CommandSwerveDrivetrain;
+import frc.robot.subsystems.vision.Vision;
 import lombok.Getter;
 
 public class RobotContainer {
   // Subsystems
-  @Getter private static CommandSwerveDrivetrain drivetrain = null;
+  @Getter
+  private static CommandSwerveDrivetrain m_drivetrain = null;
 
-  @Getter private static Drivers driver1 = null;
+  @Getter
+  private static Controller m_controller1 = null;
 
-  @Getter private static Drivers driver2 = null;
+  @Getter
+  private static Controller m_controller2 = null;
 
-  // audio
-  private SendableChooser<Command> autoChooser; // TODO implement pathplanner
-  private static Command currentAuto;
+  @Getter
+  private static Controller m_testingController = null;// used for running the
+  // subsystem tests
+  @Getter
+  private static Vision m_vision = null;
 
   public RobotContainer() {
     initializeSubsystems();
     RobotStates.setupStates();
-
     setupSubsystems();
-
-    // autoChooser = AutoBuilder.buildAutoChooser();
-    // currentAuto = autoChooser.getSelected();
-    // autoChooser.onChange((command) -> currentAuto = command);
-    // SmartDashboard.putData("Autonomous", autoChooser);
-  }
-
-  public Command getAutonomousCommand() {
-    return currentAuto;
+    RobotSim.SetupSim();
+    Auton.initializeAuton();
   }
 
   private void initializeSubsystems() {
-    driver1 = new Drivers(0).withControl(CONTROLLABLE_SYSTEMS.CHASSIS);
-    driver2 = new Drivers(1);
+    m_controller1 = new Controller(0).withControl(CONTROLLABLE_SYSTEMS.kChassis);
+    m_controller2 = new Controller(1);
+    m_testingController = new Controller(2).withControl(CONTROLLABLE_SYSTEMS.kTests);
 
-    drivetrain = TunerConstants.createDrivetrain();
+    m_drivetrain = TunerConstants.createDrivetrain();
+
+    m_vision = new Vision();
   }
 
   private void setupSubsystems() {
-    drivetrain.setup();
+    SubsystemTesting.setupTests();
+
+    BluetoniumSubsystemBase.getSubsystems().forEach((b) -> {
+      b.setupStates();
+      b.setupTests();
+    });
   }
 }

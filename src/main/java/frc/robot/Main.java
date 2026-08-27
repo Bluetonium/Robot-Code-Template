@@ -6,10 +6,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.RobotBase;
 
-public final class Main {//DO NOT TOUCH MAIN <------
-  private Main() {}
-
+public final class Main {// DO NOT TOUCH MAIN <------
   public static void main(String... args) {
     RobotBase.startRobot(Robot::new);
+  }
+
+  private Main() {
   }
 }
