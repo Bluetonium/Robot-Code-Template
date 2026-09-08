@@ -9,13 +9,13 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.Bluetonium.BluetoniumSubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.drivetrain.CommandSwerveDrivetrain;
 import frc.robot.subsystems.vision.VisionConstants.LIMELIGHTS;
 import frc.robot.subsystems.vision.VisionConstants.LIMELIGHT_PIPELINES;
 
-public class Vision extends SubsystemBase {
+public class Vision extends BluetoniumSubsystemBase {
     private final HashSet<LIMELIGHTS> m_localization_limelights = new HashSet<>();
     private CommandSwerveDrivetrain m_drivetrain;
     private Pigeon2 m_gyro;
@@ -72,11 +72,15 @@ public class Vision extends SubsystemBase {
         }
     }
 
-    public void setup() {
-        m_drivetrain = RobotContainer.getDrivetrain();
-        m_gyro = m_drivetrain.getPigeon2();
+     @Override public void setupTests() {
+         // No subsystem tests to register for vision yet and to satisfy IBluetoniumSubsystem
+     }
 
-        VisionStates.setStates();
+    @Override public void setupStates() { 
+        m_drivetrain = RobotContainer.getDrivetrain(); 
+        m_gyro = m_drivetrain.getPigeon2();
+        
+        VisionStates.setStates(); 
     }
 
     private String[] listLocalizationLimelights() {
